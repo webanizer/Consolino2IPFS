@@ -1,0 +1,16 @@
+{
+  "name": "blockckpro",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nico Krause",
+  "license": "MIT",
+  "dependencies": {
+    "ipfs": "^0.55.0",
+    "ipfs-core": "^0.6.0",
+    "sha256": "^0.2.0"
+  }
+}
