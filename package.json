@@ -3,15 +3,16 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
-  "type": "module" ,
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Nico Krause",
   "license": "MIT",
   "dependencies": {
-    "ipfs": "^0.55.0",
-    "ipfs-core": "^0.6.0",
+    "ipfs": "^0.55.1",
+    "ipfs-core": "^0.6.1",
+    "node-pre-gyp": "^0.17.0",
     "sha256": "^0.2.0"
   }
 }

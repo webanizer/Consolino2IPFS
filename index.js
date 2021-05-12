@@ -1,6 +1,6 @@
 //import sha256 from "sha256"
 import sha256 from 'sha256'
-import IPFS from 'IPFS'
+import IPFS from "ipfs-core"
 import writeToIPFS from './ipfs.js'
 import writePoEToDoichain from './doichain.js'
 
