@@ -12,6 +12,7 @@
 3. run ```node index.js````
 
 ### Todo
+0. Implement a Dockerfile and docker-compose.yml to start Doichaind Node in regtest/testnet/mainnet
 1. Implement reading serial port
 2. Implement 'name_doi' call to Doichain-RPC 
 3. Collect data for a certain time e.g. 15 minutes before it gets added to IPFS / Doichain
