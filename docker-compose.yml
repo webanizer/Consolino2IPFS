@@ -1,0 +1,17 @@
+version: '2'
+services:
+    doichain-node:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: "doichain/node-only:latest"
+        ports:
+            - "18445:18445"
+        networks:
+            - regtest
+        command: doichaind -regtest
+networks:
+    main:
+    test:
+    regtest:
+
