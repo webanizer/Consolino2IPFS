@@ -3,7 +3,7 @@ import sha256 from 'sha256'
 import IPFS from "ipfs-core"
 import writeToIPFS from './ipfs.js'
 import writePoEToDoichain from './doichain.js'
-
+import SerialPort from "serialport"
 import Sleep from './consolino.js'
 
 
@@ -11,6 +11,14 @@ const main = async () => {
     const ipfs = await IPFS.create()
 
     console.log('started reading consolino meter')
+    
+    const port = new SerialPort("/dev/ttyUSB0", {
+      baudRate: 9600,
+    }) 
+    
+    port.on("readable", function () {
+      console.log("Data:", port.read());
+    });
 
     console.log('connecting to consolino serial port')
 
