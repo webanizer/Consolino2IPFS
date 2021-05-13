@@ -1,4 +1,4 @@
 # syntax=docker/dockerfile:1
-FROM doichain/node:latest
+FROM doichain/node-only:latest
 WORKDIR /doichainNode
 
