@@ -1,17 +1,15 @@
-version: '2'
+version: "2"
 services:
-    doichain-node:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        image: "doichain/node-only:latest"
-        ports:
-            - "18445:18445"
-        networks:
-            - regtest
-        command: doichaind -regtest
-networks:
-    main:
-    test:
-    regtest:
+  regtest:
+    build: ./Dockerfile
+    image: "doichain/node-only"
+    container_name: node-only
+    stdin_open: true
+    tty: true
+    privileged: true
+    entrypoint: bash -c "doichaind -regtest"
+
+# Start with docker-compose run regtest bash
+
+
 
