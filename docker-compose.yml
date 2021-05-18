@@ -5,45 +5,44 @@ services:
       context: .
       dockerfile: Dockerfile
     image: "doichain/node-only"
-    container_name: node-only
+    container_name: regtest
     ports:
       - "18445:18332"
     stdin_open: true
     tty: true
     privileged: true
-    command: bash -c "doichaind -regtest"
+    environment:
+      DOCKER_ON_RUN: doichaind -regtest
 
-  mainnet:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: "doichain/node-only"
-    container_name: node-only
-    ports:
-      - "8338:8339"
-    stdin_open: true
-    tty: true
-    privileged: true
-    command: bash -c "doichaind"
+  # mainnet:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   image: "doichain/node-only"
+  #   container_name: mainnet
+  #   ports:
+  #     - "8338:8339"
+  #   stdin_open: true
+  #   tty: true
+  #   privileged: true
+  #   environment:
+  #     DOCKER_ON_RUN: doichaind
 
-  testnet:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: "doichain/node-only"
-    container_name: node-only
-    ports:
-      - "18338:18339"
-    stdin_open: true
-    tty: true
-    privileged: true
-    command: bash -c "doichaind -testnet"
+  # testnet:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   image: "doichain/node-only"
+  #   container_name: testnet
+  #   ports:
+  #     - "18338:18339"
+  #   stdin_open: true
+  #   tty: true
+  #   privileged: true
+  #   environment:
+  #     DOCKER_ON_RUN: doichaind -testnet
 
 
-
-
-
-# Start with docker-compose run regtest bash
 
 
 
