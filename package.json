@@ -10,8 +10,10 @@
   "author": "Nico Krause",
   "license": "MIT",
   "dependencies": {
+    "doichain": "^0.1.16",
     "ipfs": "^0.55.1",
     "ipfs-core": "^0.6.1",
+    "namecoin": "^0.1.4",
     "node-pre-gyp": "^0.17.0",
     "sha256": "^0.2.0"
   }
