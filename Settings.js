@@ -1,8 +1,9 @@
 import SettingsTable from "./settings/settings-regtest.json";
 
-const Settings = () => {
+const getSettings = () => {
 
-    return (SettingsTable)
+        return (SettingsTable)
+   
 }
 
-export { Settings } ;
+export { getSettings } ;

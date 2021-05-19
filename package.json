@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "doichain": "^0.1.16",
+    "express-async-wrap": "^1.0.0",
     "ipfs": "^0.55.1",
     "ipfs-core": "^0.6.1",
     "namecoin": "^0.1.4",

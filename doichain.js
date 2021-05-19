@@ -1,3 +1,6 @@
+//import { Meteor } from 'meteor/meteor';
+import wrap from 'express-async-wrap'
+
 export const NAMESPACE = 'e/';
 export const NAMESPACE_VERIFIED_EMAIL = 'es/';
 export const DOI_FEE = '0.03';
@@ -159,11 +162,27 @@ function doichain_feeDoi(client, address, callback) {
 }
 
 export function nameDoi(client, name, value, address) {
-    const syncFunc = Meteor.wrapAsync(doichain_nameDoi);
+    // Meteor.wrapAsync(doichain_nameDoi);
+    const syncFunc = wrap(async function doichain_nameDoi(client, name, value, address, callback)
+    {
+        const ourName = checkId(name);
+        const ourValue = value;
+        const destAddress = address;
+        if(!address) {
+            client.cmd('name_doi', ourName, ourValue, function (err, data) {
+                callback(err, data);
+            });
+        }else{
+            client.cmd('name_doi', ourName, ourValue, destAddress, function(err, data) {
+                callback(err, data);
+            });
+        }
+    } 
+    );
     return syncFunc(client, name, value, address);
 }
 
-function doichain_nameDoi(client, name, value, address, callback) {
+/*function doichain_nameDoi(client, name, value, address, callback) {
     const ourName = checkId(name);
     const ourValue = value;
     const destAddress = address;
@@ -176,7 +195,7 @@ function doichain_nameDoi(client, name, value, address, callback) {
             callback(err, data);
         });
     }
-}
+}*/
 
 export function sendRawTransaction(client, tx) {
     const syncFunc = Meteor.wrapAsync(doichain_sendrawtransaction);
