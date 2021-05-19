@@ -1,34 +1,33 @@
-//import sha256 from "sha256"
-import sha256 from 'sha256'
-import IPFS from "ipfs-core"
-import writeToIPFS from './ipfs.js'
-import writePoEToDoichain from './doichain.js'
+import writeData from "./writedata.js"
+import SmartmeterObis from 'smartmeter-obis'
 
-import Sleep from './consolino.js'
-
-
-const main = async () => {
-    const ipfs = await IPFS.create()
+const main = async () => {  
 
     console.log('started reading consolino meter')
 
-    console.log('connecting to consolino serial port')
+    let options = {
+        'protocol': "SmlProtocol",
+        'transport': "SerialResponseTransport",
+        'transportSerialPort': "/dev/ttyUSB0",
+        'transportSerialBaudrate': 9600,
+        'protocolD0WakeupCharacters': 40,
+        'protocolD0DeviceAddress': '',
+        'requestInterval': 60,
+        'obisNameLanguage': 'en',
+        'obisFallbackMedium': 6,
+        'debug': 0,
+	      'protocolSmlIgnoreInvalidCRC': true,
+	      'transportSerialDataBits': 8,
+	      'transportSerialStopBits': 1,
+	      'transportSerialParity':  'none'
+      }    
 
-    while(true) {
+    var smTransport = SmartmeterObis.init(options, writeData)
 
-        console.log('reading data')
-        const data = "'Hello world'"
-        await Sleep(3000)
-
-        console.log('creating sha256 hash over data')
-        const hash = sha256('data');
-        console.info('our hash', hash)
-        console.info('writing data into ipfs')
-        const cid = await writeToIPFS(ipfs, data)
-        
-        console.info('adding sha256 hash and cid to Doichain')
-        writePoEToDoichain(hash,cid)
-    }
+    console.log('started SmartmeterObis process')  
+    smTransport.process()
+    console.log('end SmartmeterObis process') 
+    setTimeout(smTransport.stop, 60000)
 }
 
 main()
