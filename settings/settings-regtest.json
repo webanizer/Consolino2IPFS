@@ -22,7 +22,7 @@
   "confirm": {
     "doichain": {
       "host": "localhost",
-      "port": "18445",
+      "port": "8338",
       "username": "admin",
       "password": "7ed0f58148d8ebd5760ac1f234a3ef7d5e265f44ccbd898986bde9d44d06",
       "smtps": false,

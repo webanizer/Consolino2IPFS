@@ -15,6 +15,8 @@ const writePoEToDoichain = (cid, hash) => {
         //wir benutzen die wallet von doichaind
         //nodes benötigen coins
         //coins können gestohlen werden
+        
+        hash = hash.toString();
 
         console.log("Hash in die doichain speichern: " + hash)
         const nameDoiTx = nameDoi(CONFIRM_CLIENT, hash, 'verified',false);
