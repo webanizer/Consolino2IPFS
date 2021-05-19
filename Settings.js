@@ -1,8 +1,12 @@
 import SettingsTable from "./settings/settings-regtest.json";
 
-const getSettings = () => {
+function getSettings(settings)  {
 
-        return (SettingsTable)
+    var parts = settings.split(".");    
+    
+    let setting = SettingsTable[parts[0]][parts[1]][parts[2]];
+      
+    return (setting);
    
 }
 
