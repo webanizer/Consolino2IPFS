@@ -161,28 +161,14 @@ function doichain_feeDoi(client, address, callback) {
     });
 }
 
+/*
+
 export function nameDoi(client, name, value, address) {
-    // Meteor.wrapAsync(doichain_nameDoi);
-    const syncFunc = wrap(async function doichain_nameDoi(client, name, value, address, callback)
-    {
-        const ourName = checkId(name);
-        const ourValue = value;
-        const destAddress = address;
-        if(!address) {
-            client.cmd('name_doi', ourName, ourValue, function (err, data) {
-                callback(err, data);
-            });
-        }else{
-            client.cmd('name_doi', ourName, ourValue, destAddress, function(err, data) {
-                callback(err, data);
-            });
-        }
-    } 
-    );
+    const syncFunc = Meteor.wrapAsync(doichain_nameDoi);
     return syncFunc(client, name, value, address);
 }
 
-/*function doichain_nameDoi(client, name, value, address, callback) {
+function doichain_nameDoi(client, name, value, address, callback) {
     const ourName = checkId(name);
     const ourValue = value;
     const destAddress = address;
@@ -195,7 +181,34 @@ export function nameDoi(client, name, value, address) {
             callback(err, data);
         });
     }
-}*/
+}
+}
+
+*/
+
+export function nameDoi(client, name, value, address) {
+    const syncFunc = wrap(doichain_nameDoi);
+    return syncFunc(client, name, value, address);
+}
+
+async function doichain_nameDoi(client, name, value, address, callback) {
+    const ourName = checkId(name);
+    const ourValue = value;
+    const destAddress = address;
+    try{
+    if(!address) {
+        await client.cmd('name_doi', ourName, ourValue, function (err, data) {
+            
+        });
+    }else{
+        await client.cmd('name_doi', ourName, ourValue, destAddress, function(err, data) {
+           
+        });
+    }
+}catch{err;}
+}
+
+
 
 export function sendRawTransaction(client, tx) {
     const syncFunc = Meteor.wrapAsync(doichain_sendrawtransaction);

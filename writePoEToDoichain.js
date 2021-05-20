@@ -20,7 +20,8 @@ const writePoEToDoichain = (cid, hash) => {
 
         console.log("Hash in die doichain speichern: " + hash)
         const nameDoiTx = nameDoi(CONFIRM_CLIENT, hash, 'verified',false);
-        logConfirm('writing to blockchain',nameDoiTx)
+        //logConfirm('writing to blockchain',nameDoiTx)
+        console.log("Ende von Poe")
        
     // Variante B)    
         //1. create transaction over js-doichain lib
