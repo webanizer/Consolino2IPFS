@@ -169,11 +169,11 @@ export async function nameDoi(client, name, value, address) {
     try {
         if (!address) {
             await client.cmd('name_doi', ourName, ourValue, function (err, data) {
-
+                console.error(err)
             });
         } else {
             await client.cmd('name_doi', ourName, ourValue, destAddress, function (err, data) {
-
+                console.error(err)
             });
         }
     } catch (e) {

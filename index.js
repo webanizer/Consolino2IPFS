@@ -1,6 +1,7 @@
 import writeData from "./writedata.js"
 import SmartmeterObis from 'smartmeter-obis'
 
+
 const main = async () => {  
 
     console.log('started reading consolino meter')

@@ -1,8 +1,9 @@
 import sha256 from 'sha256'
 import IPFS from "ipfs-core"
 import writeToIPFS from './ipfs.js'
-import writePoEToDoichain from './doichain.js'
+//import writePoEToDoichain from './doichain.js'
 import Sleep from './consolino.js'
+import writePoEToDoichain from './writePoEToDoichain.js'
 
 const writeData = async (err, obisResult) => {          
       
@@ -31,16 +32,11 @@ const writeData = async (err, obisResult) => {
     const cid = await writeToIPFS(ipfs, stringJSON)
     console.info('__cid', cid)    
 
-    ipfs.stop()    
-    
-/*
-    while(true) {
+    ipfs.stop() 
 
-    
-        console.info('adding sha256 hash and cid to Doichain')
-        writePoEToDoichain(hash,cid)
-    }
-*/
+    console.info('adding sha256 hash and cid to Doichain')
+    writePoEToDoichain(cid, hash)
+
    
 }
 export default writeData

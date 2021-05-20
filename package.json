@@ -14,7 +14,6 @@
     "express-async-wrap": "^1.0.0",
     "ipfs": "^0.55.1",
     "ipfs-core": "^0.6.1",
-    "mongodb": "^3.6.6",
     "namecoin": "^0.1.4",
     "node-pre-gyp": "^0.17.0",
     "node-xml": "^1.0.2",
