@@ -9,7 +9,7 @@ services:
     environment:
       DOCKER_ON_RUN: bash -c 'doichaind -regtest'
     ports:
-      - "18445:18332"
+      - "8338:8339"
     stdin_open: true
     tty: true
     privileged: true

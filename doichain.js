@@ -161,53 +161,25 @@ function doichain_feeDoi(client, address, callback) {
     });
 }
 
-/*
 
-export function nameDoi(client, name, value, address) {
-    const syncFunc = Meteor.wrapAsync(doichain_nameDoi);
-    return syncFunc(client, name, value, address);
-}
-
-function doichain_nameDoi(client, name, value, address, callback) {
+export async function nameDoi(client, name, value, address) {
     const ourName = checkId(name);
     const ourValue = value;
     const destAddress = address;
-    if(!address) {
-        client.cmd('name_doi', ourName, ourValue, function (err, data) {
-            callback(err, data);
-        });
-    }else{
-        client.cmd('name_doi', ourName, ourValue, destAddress, function(err, data) {
-            callback(err, data);
-        });
+    try {
+        if (!address) {
+            await client.cmd('name_doi', ourName, ourValue, function (err, data) {
+
+            });
+        } else {
+            await client.cmd('name_doi', ourName, ourValue, destAddress, function (err, data) {
+
+            });
+        }
+    } catch (e) {
+        console.error(e)
     }
 }
-}
-
-*/
-
-export function nameDoi(client, name, value, address) {
-    const syncFunc = wrap(doichain_nameDoi);
-    return syncFunc(client, name, value, address);
-}
-
-async function doichain_nameDoi(client, name, value, address, callback) {
-    const ourName = checkId(name);
-    const ourValue = value;
-    const destAddress = address;
-    try{
-    if(!address) {
-        await client.cmd('name_doi', ourName, ourValue, function (err, data) {
-            
-        });
-    }else{
-        await client.cmd('name_doi', ourName, ourValue, destAddress, function(err, data) {
-           
-        });
-    }
-}catch{err;}
-}
-
 
 
 export function sendRawTransaction(client, tx) {
@@ -216,8 +188,8 @@ export function sendRawTransaction(client, tx) {
 }
 
 function doichain_sendrawtransaction(client, tx, callback) {
-    console.log('sending raw transaction',tx)
-    client.cmd('sendrawtransaction', tx , function(err, data) {
+    console.log('sending raw transaction', tx)
+    client.cmd('sendrawtransaction', tx, function (err, data) {
         callback(err, data);
     });
 }
