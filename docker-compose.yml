@@ -1,0 +1,49 @@
+version: "2"
+services:
+  regtest:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: "doichain/node-only"
+    container_name: regtest
+    environment:
+      DOCKER_ON_RUN: bash -c 'doichaind -regtest'
+    ports:
+      - "8338:8339"
+    stdin_open: true
+    tty: true
+    privileged: true
+
+
+  # mainnet:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   image: "doichain/node-only"
+  #   container_name: mainnet
+  #   ports:
+  #     - "8339:8339"
+  #   stdin_open: true
+  #   tty: true
+  #   privileged: true
+  #   environment:
+  #     DOCKER_ON_RUN: 'doichaind'
+
+  # testnet:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   image: "doichain/node-only"
+  #   container_name: testnet
+  #   ports:
+  #     - "18339:18339"
+  #   stdin_open: true
+  #   tty: true
+  #   privileged: true
+  #   environment:
+  #     DOCKER_ON_RUN: -testnet
+
+
+
+
+
