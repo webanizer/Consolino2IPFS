@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "command": "node --experimental-json-modules --experimental-modules index.js",
+            "command": "node index.js",
             "name": "Run npm dev",
             "request": "launch",
             "type": "node-terminal"
