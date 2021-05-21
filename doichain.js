@@ -1,5 +1,4 @@
 //import { Meteor } from 'meteor/meteor';
-import wrap from 'express-async-wrap'
 
 export const NAMESPACE = 'e/';
 export const NAMESPACE_VERIFIED_EMAIL = 'es/';
