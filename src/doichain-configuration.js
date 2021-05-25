@@ -1,4 +1,4 @@
-import  { getSettings} from "../importSettings.js";
+import  { getSettings} from "./importSettings.js";
 import namecoin from 'namecoin'
 
 var confirmClient = undefined;

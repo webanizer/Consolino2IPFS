@@ -1,6 +1,6 @@
 import { nameDoi } from "./doichain.js"
 import { CONFIRM_CLIENT } from "./doichain-configuration.js"
-import { CID } from "ipfs";
+
 /**
  * 1. Craete Doichain transaction name_doi
  * 2. Sign transaction with PrivateKey

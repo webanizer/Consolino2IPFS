@@ -1,4 +1,4 @@
-import writeData from "./writedata.js"
+import writeData from "./src/writedata.js"
 import SmartmeterObis from 'smartmeter-obis'
 import IPFS from "ipfs-core"
 
