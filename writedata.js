@@ -1,11 +1,9 @@
 import sha256 from 'sha256'
-import IPFS from "ipfs-core"
 import writeToIPFS from './ipfs.js'
 import writePoEToDoichain from './writePoEToDoichain.js'
 
 const writeData = async (err, obisResult) => {          
       
-    const ipfs = await IPFS.create()   
   
     let obisJSON = { }
 
@@ -23,17 +21,15 @@ const writeData = async (err, obisResult) => {
     console.log("__tringJSON", stringJSON)
 
     console.log('creating sha256 hash over data')
-    const hash = sha256('stringJSON ')
+    const hash = sha256(stringJSON)
     console.info('__our hash', hash)
 
     console.info('writing data into ipfs')
-    const cid = await writeToIPFS(ipfs, stringJSON)
+    const cid = await writeToIPFS(global.ipfs, stringJSON)
     console.info('__cid', cid)    
 
-    ipfs.stop() 
-
     console.info('adding sha256 hash and cid to Doichain')
-    writePoEToDoichain(cid, hash)
+    await writePoEToDoichain(cid, hash)
 
    
 }

@@ -1,6 +1,6 @@
 //import { Meteor } from 'meteor/meteor';
 
-export const NAMESPACE = 'e/';
+export const NAMESPACE = 'bp/';
 export const NAMESPACE_VERIFIED_EMAIL = 'es/';
 export const DOI_FEE = '0.03';
 
@@ -167,13 +167,9 @@ export async function nameDoi(client, name, value, address) {
     const destAddress = address;
     try {
         if (!address) {
-            await client.cmd('name_doi', ourName, ourValue, function (err, data) {
-                console.error(err)
-            });
+            const data = await client.cmd('name_doi', ourName, ourValue)
         } else {
-            await client.cmd('name_doi', ourName, ourValue, destAddress, function (err, data) {
-                console.error(err)
-            });
+            await client.cmd('name_doi', ourName, ourValue, destAddress)
         }
     } catch (e) {
         console.error(e)

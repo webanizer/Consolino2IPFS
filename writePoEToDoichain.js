@@ -1,5 +1,6 @@
 import { nameDoi } from "./doichain.js"
 import { CONFIRM_CLIENT } from "./doichain-configuration.js"
+import { CID } from "ipfs";
 /**
  * 1. Craete Doichain transaction name_doi
  * 2. Sign transaction with PrivateKey
@@ -8,7 +9,7 @@ import { CONFIRM_CLIENT } from "./doichain-configuration.js"
  * @param {*} cid 
  * @param {*} hash 
  */
-const writePoEToDoichain = (cid, hash) => {
+const writePoEToDoichain = async (cid, hash) => {
 
     // Variante A) 
         //Doichain - RPC name_doi aufrufen mit hash & cid 
@@ -17,9 +18,10 @@ const writePoEToDoichain = (cid, hash) => {
         //coins können gestohlen werden
         
         hash = hash.toString();
-
+        let cidString = cid.toString();
+        console.log("CID in die Doichainspeichern: " + cidString);  
         console.log("Hash in die doichain speichern: " + hash)
-        const nameDoiTx = nameDoi(CONFIRM_CLIENT, hash, 'verified',false);
+        const nameDoiTx = await nameDoi(CONFIRM_CLIENT, hash, cidString,false);
         //logConfirm('writing to blockchain',nameDoiTx)
         console.log("Ende von Poe")
        

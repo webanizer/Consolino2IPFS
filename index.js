@@ -1,8 +1,10 @@
 import writeData from "./writedata.js"
 import SmartmeterObis from 'smartmeter-obis'
-
+import IPFS from "ipfs-core"
 
 const main = async () => {  
+    
+    global.ipfs =  await IPFS.create();
 
     console.log('started reading consolino meter')
 
@@ -13,7 +15,7 @@ const main = async () => {
         'transportSerialBaudrate': 9600,
         'protocolD0WakeupCharacters': 40,
         'protocolD0DeviceAddress': '',
-        'requestInterval': 60,
+        'requestInterval': 900,
         'obisNameLanguage': 'en',
         'obisFallbackMedium': 6,
         'debug': 0,
@@ -22,13 +24,13 @@ const main = async () => {
 	      'transportSerialStopBits': 1,
 	      'transportSerialParity':  'none'
       }    
-
+      
     var smTransport = SmartmeterObis.init(options, writeData)
 
     console.log('started SmartmeterObis process')  
     smTransport.process()
     console.log('end SmartmeterObis process') 
-    setTimeout(smTransport.stop, 60000)
+    setTimeout(smTransport.stop, 120000)
 }
 
 main()

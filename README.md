@@ -12,11 +12,19 @@
 3. run ```node index.js````
 
 ### Todo
-0. Implement a Dockerfile and docker-compose.yml to start Doichaind Node in regtest/testnet/mainnet
-1. Implement reading serial port
-2. Implement 'name_doi' call to Doichain-RPC 
-3. Collect data for a certain time e.g. 15 minutes before it gets added to IPFS / Doichain
-4. Implement p2plib to inform buyers and authorities about now data in ipfs 
+1. Smartmeter Optionen in Index oder auslagern?
+2. Welche Daten müssen wir tatsächlich speichern? Verbraucht und produziert:
+	1.8.0 und 2.8.0
+	einspeisen und verbrauchen
+3. Warum gibt es einen public key? Bereit für netzwerk? 
+      digital ambus
+4. Wie rechnen wir Differenz aus und wo? Menge von 15 min
+	evtl Blockexplorer der die Stromverbräuche ausrechnet zusätzlich zu Transaktionen
+	Differenz zwischen Verbrauch und Produktion
+	mit geographischen Daten/ Public key Wallet oder Zähler
+5. Kann der Zähler selber seinen Stand in der Doichain speichern? Mit seinem Public Key
+6. Nur CID statt hash, erst cid als name und hash als value?
+
 
 ### Resources
 1. Serial Port npm package https://www.npmjs.com/package/serialport
