@@ -1,4 +1,5 @@
 //import { Meteor } from 'meteor/meteor';
+import axios from 'axios';
 
 export const NAMESPACE = 'bp/';
 export const NAMESPACE_VERIFIED_EMAIL = 'es/';
@@ -162,17 +163,27 @@ function doichain_feeDoi(client, address, callback) {
 
 
 export async function nameDoi(client, name, value, address) {
-    const ourName = checkId(name);
-    const ourValue = value;
-    const destAddress = address;
+    const credentials = client.user + ':' + client.pass;
+    const authEnc = Buffer.from(credentials, 'base64').toString();
+    const basicAuth = 'Basic ' + authEnc;
+    const ourName = checkId(name).toString();
+    const ourValue = value.toString();
     try {
-        if (!address) {
-            const data = await client.cmd('name_doi', ourName, ourValue)
-        } else {
-            await client.cmd('name_doi', ourName, ourValue, destAddress)
-        }
-    } catch (e) {
-        console.error(e)
+        const response = await axios.post('http://' + client.host + ':' + client.port + '/', {
+            jsonrpc: '1.0',
+            id: 'curltest',
+            method: 'name_doi',
+            params: {
+                ourName, ourValue
+            },          
+            headers: {
+                'Content-Type': 'text/plain',
+                'Authorization' : basicAuth
+            },
+        })
+        console.log(response.data.result)
+    } catch (error) {
+        console.error(error)
     }
 }
 
