@@ -1,5 +1,5 @@
-import fetch from 'node-fetch';
-import http from 'http';
+import axios from 'axios';
+
 
 export const NAMESPACE = 'bp/';
 export const NAMESPACE_VERIFIED_EMAIL = 'es/';
@@ -7,17 +7,24 @@ export const DOI_FEE = '0.03';
 
 
 export async function nameDoi(client, name, value, address) {
-  const ourName = checkId(name);
-  const ourValue = value;
-  const destAddress = address;
+  const ourName = checkId(name).toString();
+  const ourValue = value.toString();
+  const parameters = [ourName, ourValue]
+  const credentials = client.user + ':' + client.pass
+  const url = 'http://' + credentials + '@' + client.host + ':' + client.port
+
   try {
-      if (!address) {
-          const data = await client.cmd('name_doi', ourName, ourValue)
-      } else {
-          await client.cmd('name_doi', ourName, ourValue, destAddress)
+    const response = await axios.post(
+      url,
+      {
+        id: 'curltest',
+        method: 'name_doi',
+        params: parameters,
       }
-  } catch (e) {
-      console.error(e)
+    );
+    console.log("txid: ", response.data)
+  } catch (error) {
+    console.error('\n' + error.response.data);
   }
 }
 
