@@ -6,7 +6,7 @@ var SettingsTable = {
         password: "......",
         smtps: false,
         address: ""
-    },
+    }
 };
 
 export { SettingsTable };

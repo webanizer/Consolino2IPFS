@@ -7,9 +7,14 @@ services:
     image: "doichain/node-only"
     container_name: regtest
     environment:
-      DOCKER_ON_RUN: bash -c 'doichaind -regtest'
+      #DOCKER_ON_RUN: bash -c 'doichaind -regtest'
+      - REGTEST=true
+      - RPC_ALLOW_IP=0.0.0.0/0
+      - RPC_PASSWORD=adminpw
     ports:
-      - "8338:8339"
+      - "8338:8338"
+      - "8339:8339"
+      - "18332:18332"
     stdin_open: true
     tty: true
     privileged: true
