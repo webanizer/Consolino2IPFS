@@ -2,22 +2,21 @@ import axios from 'axios';
 
 
 export const NAMESPACE = 'bp/';
-export const NAMESPACE_VERIFIED_EMAIL = 'es/';
-export const DOI_FEE = '0.03';
 
 
 export async function nameDoi(client, name, value, address) {
-  const ourName = checkId(name).toString();
-  const ourValue = value.toString();
-  const parameters = [ourName, ourValue]
-  const credentials = client.user + ':' + client.pass
+  const ourName = checkId(name);
+  const ourValue = value;
+  const time =  new Date();
+  const parameters = [ourName, ourValue];
+  const credentials = client.user + ':' + client.pass;
   const url = 'http://' + credentials + '@' + client.host + ':' + client.port
 
   try {
     const response = await axios.post(
       url,
       {
-        id: 'curltest',
+        id: time.toString(),
         method: 'name_doi',
         params: parameters,
       }
@@ -36,7 +35,6 @@ export async function nameDoi(client, name, value, address) {
     function checkId(id) {
         const DOI_PREFIX = "doi: ";
         let ret_val = id; //default value
-        if (id.startsWith(DOI_PREFIX)) ret_val = id.substring(DOI_PREFIX.length); //in case it starts with doi: cut  this away
-        if (!id.startsWith(NAMESPACE) && !id.startsWith(NAMESPACE_VERIFIED_EMAIL)) ret_val = NAMESPACE + id; //in case it doesn't start with e/ put it in front now.
+        if (!id.startsWith(NAMESPACE)) ret_val = NAMESPACE + id; //in case it doesn't start with e/ put it in front now.
         return ret_val;
     }
