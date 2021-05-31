@@ -23,7 +23,7 @@ export async function nameDoi(client, name, value, address) {
     );
     console.log("txid: ", response.data)
   } catch (error) {
-    console.error('\n' + error.response.data);
+    console.error('\n' + "Status: "+ error.response.status + " " +error.response.statusText);
   }
 }
 
