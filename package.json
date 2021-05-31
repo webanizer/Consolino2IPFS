@@ -14,9 +14,11 @@
     "fs": "*",
     "ipfs": "^0.55.1",
     "ipfs-core": "^0.6.1",
+    "jslint": "^0.12.1",
     "mock-require": "^3.0.3",
     "namecoin": "^0.1.4",
     "node-xml": "^1.0.2",
+    "os": "^0.1.1",
     "serialport": "^9.0.7",
     "sha256": "^0.2.0",
     "smartmeter-obis": "^2.3.0"
