@@ -1,11 +1,11 @@
-import settings from "./src/Settings_.js"
+import { SettingsTable } from "./Settings.js"
 import writeData from "./src/writedata.js"
 import SmartmeterObis from "smartmeter-obis"
 import IPFS from "ipfs-core"
 
 const main = async () => {
   global.ipfs = await IPFS.create()
-  let options = settings.getSettings().options
+  let options = SettingsTable.options
   
   if (options.transportSerialPort === undefined) {
         console.error("TransportSerialPort settings are missing")

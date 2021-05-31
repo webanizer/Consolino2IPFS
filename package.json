@@ -11,11 +11,11 @@
   "license": "MIT",
   "dependencies": {
     "@mapbox/node-pre-gyp": "^1.0.5",
+    "crypto-random-string": "^2.0.0",
     "fs": "*",
     "ipfs": "^0.55.1",
     "ipfs-core": "^0.6.1",
     "mock-require": "^3.0.3",
-    "namecoin": "^0.1.4",
     "node-xml": "^1.0.2",
     "serialport": "^9.0.7",
     "sha256": "^0.2.0",
