@@ -1,15 +1,13 @@
 import  { getSettings} from "./importSettings.js";
 
-var doichainClient = createClient("doichain");
-
-function createClient(settings) {
+function getClient(setting){
   let Client = {
-      host: getSettings(settings + '.host'),
-      port: getSettings(settings + '.port'),
-      user: getSettings(settings + '.username'),
-      pass: getSettings(settings + '.password')
-    };
-    return Client;
-  }
+    host: getSettings(setting + '.host'),
+    port: getSettings(setting + '.port'),
+    user: getSettings(setting + '.username'),
+    pass: getSettings(setting + '.password')
+  };
+  return Client;
+}
 
-export const DOICHAIN_CLIENT = doichainClient;
+export { getClient };
