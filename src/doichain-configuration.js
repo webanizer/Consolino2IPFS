@@ -1,17 +1,15 @@
 import  { getSettings} from "./importSettings.js";
-import namecoin from 'namecoin'
 
-var confirmClient = undefined;
-
-confirmClient = createClient("confirm");
-
-export const CONFIRM_CLIENT = confirmClient;
+var doichainClient = createClient("doichain");
 
 function createClient(settings) {
-    return new namecoin.Client({
-      host: getSettings(settings+'.doichain.host'),
-      port: getSettings(settings+'.doichain.port'),
-      user: getSettings(settings+'.doichain.username'),
-      pass: getSettings(settings+'.doichain.password')
-    });
+  let Client = {
+      host: getSettings(settings + '.host'),
+      port: getSettings(settings + '.port'),
+      user: getSettings(settings + '.username'),
+      pass: getSettings(settings + '.password')
+    };
+    return Client;
   }
+
+export const DOICHAIN_CLIENT = doichainClient;
