@@ -1,5 +1,5 @@
+import { getClient } from "./doichain-configuration.js"
 import { nameDoi } from "./doichain.js"
-import { DOICHAIN_CLIENT } from "./doichain-configuration.js"
 
 /**
  * 1. Craete Doichain transaction name_doi
@@ -21,7 +21,7 @@ const writePoEToDoichain = async (cid, hash) => {
         let cidString = cid.toString();
         console.log("CID in die Doichainspeichern: " + cidString);  
         console.log("Hash in die doichain speichern: " + hash)
-        const nameDoiTx = await nameDoi(DOICHAIN_CLIENT, hash, cidString,false);
+        const nameDoiTx = await nameDoi(getClient("doichain"), hash, cidString,false);
         //logConfirm('writing to blockchain',nameDoiTx)
         console.log("Ende von Poe")
        
