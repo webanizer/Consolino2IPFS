@@ -2,10 +2,14 @@ import fs from "fs"
 import chai from "chai"
 //import assert from "assert"
 import mock from "mock-require"
-var expect = chai.expect
+const expect = chai.expect
+//import { expect } from "aegir/utils/chai";
 mock("serialport", "virtual-serialport")
-import SmartmeterObis from "smartmeter-obis";
+import SmartmeterObis from "smartmeter-obis"
+import IPFS from "ipfs-core"
+import tmpDir from "./utils/temp-dir.js"
 
+import createTempRepo from "./utils/create-repo-nodejs.js"
 
 describe("test LocalFileTransport with D0Protocol", function () {
   it("check output of two D0 messages", function (done) {
@@ -39,7 +43,7 @@ describe("test LocalFileTransport with D0Protocol", function () {
         return;
       }
       // nothing to do in this case because protocol is stateless
-      /*
+      
       expect(obisResult).to.be.an("object");
       expect(obisResult["6-0:9.20"]).to.be.an("object");
       expect(obisResult["6-0:9.20"].rawValue).to.be.equal("64030874");
@@ -50,7 +54,7 @@ describe("test LocalFileTransport with D0Protocol", function () {
       expect(obisResult["6-0:6.8"].values.length).to.be.equal(1);
       expect(obisResult["6-0:6.8"].values[0].value).to.be.equal(29.055);
       expect(obisResult["6-0:6.8"].values[0].unit).to.be.equal("MWh");
-      */
+      
 
       if (!lastObisResult) {
         expect(counter).to.be.equal(0);
@@ -93,4 +97,40 @@ describe("test LocalFileTransport with D0Protocol", function () {
       });
     }, 13000);
   });
-});
+
+})
+
+describe("create node IPFS", function () {
+  let tempRepo;
+
+  beforeEach(() => {
+    tempRepo = createTempRepo();
+  });
+
+  afterEach(() => {
+    tempRepo.teardown();
+    console.log("vvv");
+  });
+
+  it("should create a node with a custom repo path", async function () {
+    this.timeout(80 * 1000);
+
+    const node = await IPFS.create({
+      repo: tmpDir(),
+      init: { bits: 512 },
+      config: {
+        Addresses: {
+          Swarm: [],
+        },
+      },
+      preload: { enabled: false },
+    });
+
+    const config = await node.config.getAll();
+    //console.log("config.Identity", config.Identity)
+
+    expect(config.Identity).to.exist;
+    await node.stop();
+  });
+}); 
+
