@@ -1,4 +1,4 @@
-import { SettingsTable } from "../Settings.js";
+import { SettingsTable } from "./Settings.js";
 
 function getSettings(settings)  {
 
