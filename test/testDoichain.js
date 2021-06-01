@@ -8,6 +8,8 @@ chai.use(chaiHttp);
 
 // start Docker Container in regtest mode
 // docker-compose up
+// in Settings.js add RPC username and password from .doichain/doichain.conf in regtest container
+// in Settings.js add host and port of regtest container
 
 
 let regtest = getClient("regtest");
