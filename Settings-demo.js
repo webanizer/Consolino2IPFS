@@ -20,7 +20,7 @@ var SettingsTable = {
       transport: "LocalFileTransport",
       transportSerialPort: "/dev/ir-usb0",
       transportSerialBaudrate: 9600,
-      requestInterval: 10,
+      requestInterval: 900,
       transportHttpRequestUrl: "",
       obisNameLanguage: "en",
       transportLocalFilePath: "./test.d0",
