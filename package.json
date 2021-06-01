@@ -11,7 +11,9 @@
   "license": "MIT",
   "dependencies": {
     "@mapbox/node-pre-gyp": "^1.0.5",
-    "crypto-random-string": "^2.0.0",
+    "@types/chai": "^4.2.18",
+    "axios": "^0.21.1",
+    "crypto-random-string": "^3.3.1",
     "fs": "*",
     "ipfs": "^0.55.1",
     "ipfs-core": "^0.6.1",
@@ -22,7 +24,9 @@
     "smartmeter-obis": "^2.3.0"
   },
   "devDependencies": {
+    "@types/chai-http": "^4.2.0",
     "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
     "mocha": "^8.4.0"
   }
 }
