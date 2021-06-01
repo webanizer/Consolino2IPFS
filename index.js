@@ -1,4 +1,4 @@
-import { SettingsTable } from "./src/Settings.js"
+import { SettingsTable } from "./Settings.js"
 import writeData from "./src/writedata.js"
 import SmartmeterObis from "smartmeter-obis"
 import IPFS from "ipfs-core"
