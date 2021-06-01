@@ -28,9 +28,12 @@ describe('Test group', function () {
                 method: 'name_doi',
                 params: parameters
             })
-            .then((res) => {
-                expect(res).to.have.status(200);
+            .then((response) => { 
+                if (response.status !== 200) {
+                    console.log("Request failed because: " + response.res.statusMessage);
+                }
+                expect(response.res).to.have.status(200);
                 done();
-             })
-    }).timeout(5000);
+             }).catch(done)
+    })
 });
