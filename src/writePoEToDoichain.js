@@ -1,5 +1,5 @@
-import { getClient } from "./doichain-configuration.js"
-import { nameDoi } from "./doichain.js"
+import { getClient } from "./getClient.js"
+import { nameDoi } from "./nameDoi.js"
 
 /**
  * 1. Craete Doichain transaction name_doi
@@ -11,31 +11,12 @@ import { nameDoi } from "./doichain.js"
  */
 const writePoEToDoichain = async (cid, hash) => {
 
-    // Variante A) 
-        //Doichain - RPC name_doi aufrufen mit hash & cid 
-        //wir benutzen die wallet von doichaind
-        //nodes benötigen coins
-        //coins können gestohlen werden
-        
-        hash = hash.toString();
-        let cidString = cid.toString();
-        console.log("CID in die Doichainspeichern: " + cidString);  
+        console.log("CID in die Doichainspeichern: " + cid);  
         console.log("Hash in die doichain speichern: " + hash)
-        const nameDoiTx = await nameDoi(getClient("doichain","regtest"), hash, cidString,false);
-        //logConfirm('writing to blockchain',nameDoiTx)
-        console.log("Ende von Poe")
-       
-    // Variante B)    
-        //1. create transaction over js-doichain lib
-        //2. signieren over js-doichain lib
-        //3. Doichain RPC sendrawtransaction
-        //4. Broadcast über RPC
 
-    // Variante C) 
-        //wie Variante B) nur broadcast auf Electrum Server
-        
-        //---> Bei allen Varianten brauchen wir DoiCoins auf dem Node 
-        
+        const nameDoiTx = await nameDoi(getClient("doichain","regtest"), hash, cid.toString(),false);
+
+        console.log("Ende von Poe")
 
 }
 export default writePoEToDoichain

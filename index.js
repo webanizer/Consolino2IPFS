@@ -1,7 +1,7 @@
 import { testSettingsTable } from "./settings-test.js"
 import fs from "fs"
 import { settingsTable } from "./settings.js"
-import writeData from "./src/writedata.js"
+import writeData from "./src/smlToIpfs.js"
 import SmartmeterObis from "smartmeter-obis"
 import ipfs from "ipfs-core";
 import * as compose from "docker-compose";

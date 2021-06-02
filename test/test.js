@@ -1,7 +1,7 @@
 import fs from "fs"
 import chai from "chai"
 import cryptoRandomString from 'crypto-random-string'
-import { getClient } from "../src/doichain-configuration.js"
+import { getClient } from "../src/getClient.js"
 import chaiHttp from 'chai-http';
 import mock from "mock-require";
 
