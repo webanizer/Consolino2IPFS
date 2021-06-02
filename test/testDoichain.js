@@ -8,18 +8,12 @@ chai.use(chaiHttp);
 
 // start Docker Container in regtest mode
 // docker-compose up
-// in Settings.js add RPC username and password from .doichain/doichain.conf in regtest container
-// in Settings.js add host and port of regtest container
-
-let regtest = getClient("regtest");
-let testHash = cryptoRandomString({ length: 100, type: 'base64' }).replace(/[/+=]/g, '').substr(-30);
-let testCid = cryptoRandomString({ length: 100, type: 'base64' }).replace(/[/+=]/g, '').substr(-28);
-const credentials = regtest.user + ':' + regtest.pass;
-const parameters = [testHash, testCid];
-const blocks = [101];
-var url = "http://" + credentials + '@' + regtest.host + ':' + regtest.port;
 
 describe('Generate Funds and make name_doi tx', function () {
+    let regtest = getClient("regtest");
+    const credentials = regtest.user + ':' + regtest.pass;
+    var url = "http://" + credentials + '@' + regtest.host + ':' + regtest.port;
+
     it('First generate new address', function () {
         return new Promise(function (resolve,reject) {
             chai
@@ -84,6 +78,10 @@ describe('Generate Funds and make name_doi tx', function () {
     })
 
     it('should return name_doi txid with status 200', function () {
+        // to do test hash und test cid austauschen
+        global.testHash = cryptoRandomString({ length: 100, type: 'base64' }).replace(/[/+=]/g, '').substr(-30);
+        let testCid = cryptoRandomString({ length: 100, type: 'base64' }).replace(/[/+=]/g, '').substr(-28);
+        const parameters = [testHash, testCid];
         return new Promise(function (resolve) {
             chai
                 .request(url)
