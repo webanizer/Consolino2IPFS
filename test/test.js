@@ -6,10 +6,8 @@ import chaiHttp from 'chai-http';
 import mock from "mock-require";
 
 import sha256 from "sha256"
-//import assert from "assert"
-import mock from "mock-require"
 const expect = chai.expect
-//import { expect } from "aegir/utils/chai";
+
 mock("serialport", "virtual-serialport")
 import SmartmeterObis from "smartmeter-obis"
 import IPFS from "ipfs-core"
@@ -96,8 +94,9 @@ describe("test LocalFileTransport with D0Protocol", function () {
       console.log("___stringJSON", stringJSON);
 
       console.log("creating sha256 hash over data");
-      const hash = sha256(stringJSON);
-      console.info("__our hash", hash);
+      global.testHash = sha256(stringJSON);
+
+      console.info("__our testHash", testHash);
     }
 
     var smTransport = SmartmeterObis.init(options, testStoreData);
@@ -144,13 +143,13 @@ describe("create node IPFS", function () {
 
     const config = await node.config.getAll();
 
-    let data = "aaaaaa"
-
-    const { cid } = await node.add(data);
+    const { cid } = await node.add(testHash);
 
     expect(cid).to.be.not.empty
 
-    console.log("__cid", cid);
+    global.testCid = cid.toString();
+
+    console.log("testCid: ", testCid);
 
     
     expect(config.Identity).to.exist;
@@ -232,17 +231,13 @@ describe('Generate Funds and make name_doi tx', function () {
     })
 
     it('should return name_doi txid with status 200', function () {
-        // to do test hash und test cid austauschen
-        global.testHash = cryptoRandomString({ length: 100, type: 'base64' }).replace(/[/+=]/g, '').substr(-30);
-        let testCid = cryptoRandomString({ length: 100, type: 'base64' }).replace(/[/+=]/g, '').substr(-28);
-        const parameters = [testHash, testCid];
         return new Promise(function (resolve) {
             chai
                 .request(url)
                 .post("/")
                 .send({
                     method: 'name_doi',
-                    params: parameters
+                    params: [global.testHash, global.testCid]
                 })
                 .then((response) => {
                     if (response.status !== 200) {
