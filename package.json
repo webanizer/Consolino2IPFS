@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "start:test": "node index.js test",     
-    "test": "mocha"
+    "test": "mocha"    
   },
   "author": "Nico Krause",
   "license": "MIT",

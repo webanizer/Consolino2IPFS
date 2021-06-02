@@ -1,6 +1,6 @@
 node_modules
-Settings.js
-Settings_.js
+settings.js
+settings-test.js
 settings.json
 .vscode
 test.d0
