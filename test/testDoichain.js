@@ -1,3 +1,4 @@
+/*
 import cryptoRandomString from 'crypto-random-string'
 import { getClient } from "../src/doichain-configuration.js" 
 import chai from 'chai';
@@ -39,3 +40,4 @@ describe('Test group', function () {
              }).catch(done)
     })
 });
+*/

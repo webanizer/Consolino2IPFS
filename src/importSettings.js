@@ -1,4 +1,4 @@
-import { settingsTable } from "./settings.js";
+import { settingsTable } from "../settings.js";
 
 function getSettings(settings)  {
 
@@ -10,4 +10,4 @@ function getSettings(settings)  {
    
 }
 
-export { getSettings } ;
+export { getSettings } 
