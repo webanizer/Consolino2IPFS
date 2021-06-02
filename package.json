@@ -5,6 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "node index.js",
+    "start:test": "node index.js test",     
     "test": "mocha"
   },
   "author": "Nico Krause",

@@ -1,12 +1,12 @@
-import { SettingsTable } from "./Settings.js";
+import { settingsTable } from "./settings.js";
 
 function getSettings(settings)  {
 
     var parts = settings.split(".");    
     
-    let setting = SettingsTable[parts[0]][parts[1]];
+    let setting = settingsTable[parts[0]][parts[1]];
       
-    return (setting);
+    return (setting)
    
 }
 

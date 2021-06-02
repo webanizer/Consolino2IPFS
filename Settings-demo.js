@@ -28,4 +28,4 @@ var SettingsTable = {
     }
 };
 
-export { SettingsTable };
+export { SettingsTable }
