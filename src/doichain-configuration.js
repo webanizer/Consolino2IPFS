@@ -2,7 +2,7 @@ import { settingsTable } from "../settings.js";
 import { testSettingsTable } from "../settings-test.js";
 
 function getClient(setting, mode) {
-  if (mode == 'test') {
+  if (mode == 'regtest') {
     let Client = {
       host: getTestSettings(setting + '.host'),
       port: getTestSettings(setting + '.port'),
