@@ -5,6 +5,7 @@ import writeData from "./src/writedata.js"
 import SmartmeterObis from "smartmeter-obis"
 import ipfs from "ipfs-core";
 import * as compose from "docker-compose";
+import transportLocalFile from  "./src/transportLocalFile.js"
 
 const args = process.argv.slice(2)
 
@@ -33,7 +34,11 @@ const main = async () => {
        options = settingsTable.options
   }
 
-  console.log("_options", options);
+  if (args[0] == "test"){
+      options = testSettingsTable.options
+      transportLocalFile(options.transportLocalFilePath)
+      console.log("_options", options)      
+  }  
 
   if (options.transportSerialPort === undefined) {
     console.error("TransportSerialPort settings are missing");

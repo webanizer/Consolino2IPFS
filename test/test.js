@@ -5,6 +5,9 @@ import { getClient } from "../src/doichain-configuration.js"
 import chaiHttp from 'chai-http';
 import mock from "mock-require";
 
+import sha256 from "sha256"
+//import assert from "assert"
+import mock from "mock-require"
 const expect = chai.expect
 //import { expect } from "aegir/utils/chai";
 mock("serialport", "virtual-serialport")
@@ -38,6 +41,7 @@ describe("test LocalFileTransport with D0Protocol", function () {
     var lastObisResult;
     var counter = 0;
     var errCounter = 0;
+    let obisJSON = {};
 
     function testStoreData(err, obisResult) {
       if (err) {
@@ -47,7 +51,7 @@ describe("test LocalFileTransport with D0Protocol", function () {
         return;
       }
       // nothing to do in this case because protocol is stateless
-      
+
       expect(obisResult).to.be.an("object");
       expect(obisResult["6-0:9.20"]).to.be.an("object");
       expect(obisResult["6-0:9.20"].rawValue).to.be.equal("64030874");
@@ -58,7 +62,6 @@ describe("test LocalFileTransport with D0Protocol", function () {
       expect(obisResult["6-0:6.8"].values.length).to.be.equal(1);
       expect(obisResult["6-0:6.8"].values[0].value).to.be.equal(29.055);
       expect(obisResult["6-0:6.8"].values[0].unit).to.be.equal("MWh");
-      
 
       if (!lastObisResult) {
         expect(counter).to.be.equal(0);
@@ -84,7 +87,17 @@ describe("test LocalFileTransport with D0Protocol", function () {
             " = " +
             obisResult[obisId].valueToString()
         );
+
+        obisJSON[obisResult[obisId].idToString()] =
+          obisResult[obisId].valueToString();
       }
+      obisJSON["timestamp"] = Date.now();
+      let stringJSON = JSON.stringify(obisJSON);
+      console.log("___stringJSON", stringJSON);
+
+      console.log("creating sha256 hash over data");
+      const hash = sha256(stringJSON);
+      console.info("__our hash", hash);
     }
 
     var smTransport = SmartmeterObis.init(options, testStoreData);
@@ -100,8 +113,7 @@ describe("test LocalFileTransport with D0Protocol", function () {
         done();
       });
     }, 13000);
-  });
-
+  })
 })
 
 describe("create node IPFS", function () {
@@ -131,8 +143,16 @@ describe("create node IPFS", function () {
     });
 
     const config = await node.config.getAll();
-    //console.log("config.Identity", config.Identity)
 
+    let data = "aaaaaa"
+
+    const { cid } = await node.add(data);
+
+    expect(cid).to.be.not.empty
+
+    console.log("__cid", cid);
+
+    
     expect(config.Identity).to.exist;
     await node.stop();
   });
