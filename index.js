@@ -1,6 +1,6 @@
 import { testSettingsTable } from "./src/settings-test.js"
 import fs from "fs"
-import { settingsTable } from "./src/settings.js"
+import { SettingsTable } from "./settings.js"
 import writeData from "./src/writedata.js"
 import SmartmeterObis from "smartmeter-obis"
 import ipfs from "ipfs-core";
