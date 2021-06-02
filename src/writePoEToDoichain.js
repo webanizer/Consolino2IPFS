@@ -21,7 +21,7 @@ const writePoEToDoichain = async (cid, hash) => {
         let cidString = cid.toString();
         console.log("CID in die Doichainspeichern: " + cidString);  
         console.log("Hash in die doichain speichern: " + hash)
-        const nameDoiTx = await nameDoi(getClient("doichain"), hash, cidString,false);
+        const nameDoiTx = await nameDoi(getClient("doichain","test"), hash, cidString,false);
         //logConfirm('writing to blockchain',nameDoiTx)
         console.log("Ende von Poe")
        

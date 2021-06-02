@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "start:test": "node index.js test",     
+    "start:test": "node index.js test",
     "test": "mocha"
   },
   "author": "Nico Krause",
@@ -16,6 +16,7 @@
     "@types/chai": "^4.2.18",
     "axios": "^0.21.1",
     "crypto-random-string": "^3.3.1",
+    "docker-compose": "^0.23.10",
     "fs": "*",
     "ipfs": "^0.55.1",
     "ipfs-core": "^0.6.1",

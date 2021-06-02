@@ -144,7 +144,7 @@ describe("create node IPFS", function () {
 chai.use(chaiHttp);
 
 describe('Generate Funds and make name_doi tx', function () {
-    let regtest = getClient("regtest");
+    let regtest = getClient("doichain", "test");
     const credentials = regtest.user + ':' + regtest.pass;
     var url = "http://" + credentials + '@' + regtest.host + ':' + regtest.port;
 

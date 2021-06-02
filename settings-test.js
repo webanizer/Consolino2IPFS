@@ -1,11 +1,9 @@
 var testSettingsTable = {
   doichain: {
     host: "localhost",
-    port: "8339",
+    port: "18332",
     username: "admin",
-    password: "222",
-    smtps: false,
-    address: "",
+    password: "adminpw"
   },
   options: {
     protocol: "D0Protocol",
@@ -17,6 +15,11 @@ var testSettingsTable = {
     obisNameLanguage: "en",
     transportLocalFilePath: "./test.d0",
     obisFallbackMedium: 6,
+    debug: 0,
+    protocolSmlIgnoreInvalidCRC: true,
+    transportSerialDataBits: 8,
+    transportSerialStopBits: 1,
+    transportSerialParity:  'none'
   },
 };
 
