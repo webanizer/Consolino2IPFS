@@ -1,6 +1,5 @@
 import fs from "fs"
 import chai from "chai"
-import cryptoRandomString from 'crypto-random-string'
 import { getClient } from "../src/getClient.js"
 import chaiHttp from 'chai-http';
 import mock from "mock-require";
@@ -142,16 +141,13 @@ describe("create node IPFS", function () {
     });
 
     const config = await node.config.getAll();
-
     const { cid } = await node.add(testHash);
 
     expect(cid).to.be.not.empty
 
     global.testCid = cid.toString();
-
     console.log("testCid: ", testCid);
 
-    
     expect(config.Identity).to.exist;
     await node.stop();
   });
