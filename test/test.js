@@ -69,33 +69,32 @@ describe("test LocalFileTransport with D0Protocol", function () {
         );
       }
 
-      console.log("Received data " + counter + ": " + Object.keys(obisResult));
+      //console.log("Received data " + counter + ": " + Object.keys(obisResult));
       //console.log(JSON.stringify(obisResult,null,2));
       lastObisResult = obisResult;
       counter++;
       for (var obisId in obisResult) {
-        console.log(
+        //console.log(
           obisResult[obisId].idToString() +
-            ": " +
-            SmartmeterObis.ObisNames.resolveObisName(
-              obisResult[obisId],
-              options.obisNameLanguage
-            ).obisName +
-            " = " +
-            obisResult[obisId].valueToString()
-        );
+          ": " +
+          SmartmeterObis.ObisNames.resolveObisName(
+            obisResult[obisId],
+            options.obisNameLanguage
+          ).obisName +
+          " = " +
+          obisResult[obisId].valueToString();
+        //);
 
         obisJSON[obisResult[obisId].idToString()] =
           obisResult[obisId].valueToString();
       }
       obisJSON["timestamp"] = Date.now();
       let stringJSON = JSON.stringify(obisJSON);
-      console.log("___stringJSON", stringJSON);
+      //console.log("___stringJSON", stringJSON);
+      //console.log("creating sha256 hash over data");
 
-      console.log("creating sha256 hash over data");
       global.testHash = sha256(stringJSON);
-
-      console.info("__our testHash", testHash);
+      //console.info("__our testHash", testHash);
     }
 
     var smTransport = SmartmeterObis.init(options, testStoreData);
@@ -123,7 +122,7 @@ describe("create node IPFS", function () {
 
   afterEach(() => {
     tempRepo.teardown();
-    console.log("vvv");
+    //console.log("vvv");
   });
 
   it("should create a node with a custom repo path", async function () {
@@ -146,149 +145,149 @@ describe("create node IPFS", function () {
     expect(cid).to.be.not.empty
 
     global.testCid = cid.toString();
-    console.log("testCid: ", testCid);
+    //console.log("testCid: ", testCid);
 
     expect(config.Identity).to.exist;
     await node.stop();
   });
 
-}); 
+});
 
 
 // Test der RPC calls zur Doichain im Regtestmodus
 chai.use(chaiHttp);
 
 describe('Generate Funds and make name_doi tx', function () {
-    let regtest = getClient("doichain", "regtest");
-    const credentials = regtest.user + ':' + regtest.pass;
-    var url = "http://" + credentials + '@' + regtest.host + ':' + regtest.port;
+      let regtest = getClient("doichain", "regtest");
+      const credentials = regtest.user + ':' + regtest.pass;
+      var url = "http://" + credentials + '@' + regtest.host + ':' + regtest.port;
 
-    it('First generate new address', function () {
-        return new Promise(function (resolve,reject) {
-            chai
-                .request(url)
-                .post("/")
-                .send({
-                    method: 'getnewaddress'
-                })
-                .then((response) => {
-                    if (response.status !== 200) {
-                        console.log("Test failed because: " + response.res.statusMessage)
-                        reject(response.error);   
-                    } else {
-                        global.address = response.body.result;
-                        expect(response.res).to.have.status(200);   
-                        resolve()   
-                    }           
-                })
+      it('First generate new address', function () {
+        return new Promise(function (resolve, reject) {
+          chai
+            .request(url)
+            .post("/")
+            .send({
+              method: 'getnewaddress'
+            })
+            .then((response) => {
+              if (response.status !== 200) {
+                console.log("Test failed because: " + response.res.statusMessage)
+                reject(response.error);
+              } else {
+                global.address = response.body.result;
+                expect(response.res).to.have.status(200);
+                resolve()
+              }
+            })
         })
-    })
+      })
 
-    it('Then generate 101 Blocks to the new address', function () {
+      it('Then generate 101 Blocks to the new address', function () {
         return new Promise(function (resolve) {
-            chai
-                .request(url)
-                .post("/")
-                .send({
-                    method: 'generatetoaddress',
-                    params: [101, global.address]
-                })
-                .then((response) => {
-                    if (response.status !== 200) {
-                        console.log("Test failed because: " + response.res.statusMessage)
-                        reject(response.error);   
-                    } else {
-                        expect(response.res).to.have.status(200);
-                        resolve(); 
-                    }                   
-                })
+          chai
+            .request(url)
+            .post("/")
+            .send({
+              method: 'generatetoaddress',
+              params: [101, global.address]
+            })
+            .then((response) => {
+              if (response.status !== 200) {
+                console.log("Test failed because: " + response.res.statusMessage)
+                reject(response.error);
+              } else {
+                expect(response.res).to.have.status(200);
+                resolve();
+              }
+            })
         })
-    })
+      })
 
-    it('Then affirm new balance must be at least 50.0 Doi', function () {
+      it('Then affirm new balance must be at least 50.0 Doi', function () {
         return new Promise(function (resolve) {
-            chai
-                .request(url)
-                .post("/")
-                .send({
-                    method: 'getbalance',
-                })
-                .then((response) => {
-                    if (response.status !== 200) {
-                        console.log("Test failed because: " + response.res.statusMessage)
-                        reject(response.error);   
-                    } else {
-                        let balance = parseInt(response.body.result);
-                        expect(balance).to.be.gte(50);
-                        resolve();   
-                    }                
-                })
+          chai
+            .request(url)
+            .post("/")
+            .send({
+              method: 'getbalance',
+            })
+            .then((response) => {
+              if (response.status !== 200) {
+                console.log("Test failed because: " + response.res.statusMessage)
+                reject(response.error);
+              } else {
+                let balance = parseInt(response.body.result);
+                expect(balance).to.be.gte(50);
+                resolve();
+              }
+            })
         })
-    })
+      })
 
-    it('should return name_doi txid with status 200', function () {
+      it('should return name_doi txid with status 200', function () {
         return new Promise(function (resolve) {
-            chai
-                .request(url)
-                .post("/")
-                .send({
-                    method: 'name_doi',
-                    params: [global.testHash, global.testCid]
-                })
-                .then((response) => {
-                    if (response.status !== 200) {
-                        console.log("Test failed because: " + response.res.statusMessage)
-                        reject(response.error);   
-                    } else {
-                    expect(response.res).to.have.status(200);
-                    resolve();
-                    }
-                })
+          chai
+            .request(url)
+            .post("/")
+            .send({
+              method: 'name_doi',
+              params: [global.testHash, global.testCid]
+            })
+            .then((response) => {
+              if (response.status !== 200) {
+                console.log("Test failed because: " + response.res.statusMessage)
+                reject(response.error);
+              } else {
+                expect(response.res).to.have.status(200);
+                resolve();
+              }
+            })
         })
-    })
+      })
 
-    it('Then generate 1 Block to validate name_doi', function () {
+      it('Then generate 1 Block to validate name_doi', function () {
         return new Promise(function (resolve) {
-            chai
-                .request(url)
-                .post("/")
-                .send({
-                    method: 'generatetoaddress',
-                    params: [1, global.address]
-                })
-                .then((response) => {
-                    if (response.status !== 200) {
-                        console.log("Test failed because: " + response.res.statusMessage)
-                        reject(response.error);   
-                    } else {
-                        expect(response.res).to.have.status(200);
-                        resolve(); 
-                    }                   
-                })
+          chai
+            .request(url)
+            .post("/")
+            .send({
+              method: 'generatetoaddress',
+              params: [1, global.address]
+            })
+            .then((response) => {
+              if (response.status !== 200) {
+                console.log("Test failed because: " + response.res.statusMessage)
+                reject(response.error);
+              } else {
+                expect(response.res).to.have.status(200);
+                resolve();
+              }
+            })
         })
-    })
+      })
 
 
-    it('should return the saved hash with name_show', function () {
+      it('should return the saved hash with name_show', function () {
         return new Promise(function (resolve) {
-            chai
-                .request(url)
-                .post("/")
-                .send({
-                    method: 'name_show',
-                    params: [testHash]
-                })
-                .then((response) => {
-                    if (response.status !== 200) {
-                        console.log("Test failed because: " + response.res.statusMessage)
-                        reject(response.error);   
-                    } else {
-                    expect(response.res).to.have.status(200);
-                    resolve();
-                    }
-                })
+          chai
+            .request(url)
+            .post("/")
+            .send({
+              method: 'name_show',
+              params: [testHash]
+            })
+            .then((response) => {
+              if (response.status !== 200) {
+                console.log("Test failed because: " + response.res.statusMessage)
+                reject(response.error);
+              } else {
+                expect(response.res).to.have.status(200);
+                resolve();
+              }
+            })
         })
-    })
+      })
 
-});
+    });
 

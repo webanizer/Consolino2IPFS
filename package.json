@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "start:test": "node index.js test",
-    "test": "mocha"
+    "mocha": "docker-compose up -d && mocha"
   },
   "author": "Nico Krause",
   "license": "MIT",

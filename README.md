@@ -9,7 +9,12 @@
 ## Getting started
 1. Checkout this repo
 2. run ```npm install```
-3. run ```node index.js````
+3. run ```node index.js```
+4. to run in test mode: ```npm run start:test```
+     ->  Reads data from test file instead of meter
+     ->  Writes hash and Cid to Doichain regtest instead of main net
+5. to run software tests run: ```npm run mocha```
+
 
 ### Offene Fragen
 1. Welche Daten müssen wir tatsächlich speichern? Verbraucht und produziert:
