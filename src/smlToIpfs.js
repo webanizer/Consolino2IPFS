@@ -2,7 +2,7 @@ import sha256 from 'sha256'
 import writeToIPFS from './ipfs.js'
 import writePoEToDoichain from './writePoEToDoichain.js'
 
-const writeData = async (err, obisResult) => {          
+const smlToIpfs = async (err, obisResult) => {          
       
   
     let obisJSON = { }
@@ -33,6 +33,6 @@ const writeData = async (err, obisResult) => {
 
    
 }
-export default writeData
+export default smlToIpfs
 
 
