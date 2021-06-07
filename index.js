@@ -1,16 +1,17 @@
 import { testSettingsTable } from "./settings-test.js"
 import fs from "fs"
 import { settingsTable } from "./settings.js"
-import writeData from "./src/smlToIpfs.js"
 import SmartmeterObis from "smartmeter-obis"
 import ipfs from "ipfs-core";
 import * as compose from "docker-compose";
 import transportLocalFile from  "./src/transportLocalFile.js"
+import smlToIpfs from "./src/smlToIpfs.js"
 
 const args = process.argv.slice(2)
+global.ipfs = await ipfs.create()
 
 const main = async () => {
-  global.ipfs = await ipfs.create()
+
   let options
 
   switch (args[0]) {
@@ -46,7 +47,7 @@ const main = async () => {
   }
 
   console.log("started reading consolino meter");
-  let smTransport = SmartmeterObis.init(options, writeData);
+  let smTransport = SmartmeterObis.init(options, smlToIpfs);
   console.log("started SmartmeterObis process");
   smTransport.process();
   console.log("end SmartmeterObis process");
