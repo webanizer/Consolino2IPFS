@@ -88,12 +88,14 @@ describe("test LocalFileTransport with D0Protocol", function () {
         obisJSON[obisResult[obisId].idToString()] =
           obisResult[obisId].valueToString();
       }
-      obisJSON["timestamp"] = Date.now();
+     // obisJSON["timestamp"] = Date.now();
       let stringJSON = JSON.stringify(obisJSON);
       //console.log("___stringJSON", stringJSON);
       //console.log("creating sha256 hash over data");
 
       global.testHash = sha256(stringJSON);
+      let expectedHash = 'ad535182fc0af8e4e602c9f21ca887317aaf17b09e5f980d530b2694fc5d7e12';
+      expect(testHash.toString()).to.equal(expectedHash);
       //console.info("__our testHash", testHash);
     }
 
@@ -288,6 +290,5 @@ describe('Generate Funds and make name_doi tx', function () {
             })
         })
       })
-
     });
 
