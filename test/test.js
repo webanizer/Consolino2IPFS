@@ -10,6 +10,7 @@ const expect = chai.expect
 mock("serialport", "virtual-serialport")
 import SmartmeterObis from "smartmeter-obis"
 import IPFS from "ipfs-core"
+import AbortController from "abort-controller"
 import tmpDir from "./utils/temp-dir.js"
 
 
@@ -149,10 +150,24 @@ describe("create node IPFS", function () {
     global.testCid = cid.toString();
     //console.log("testCid: ", testCid);
 
+    // in the application
+const controller = new AbortController()
+
+setTimeout(() => controller.abort(), 10000)
+
+try {
+  const res = await node.cat(testCid, {
+    signal: controller.signal
+  })
+  } catch (err) {
+  if (err instanceof AbortError) {
+    console.log(err);
+  }
+}
+
     expect(config.Identity).to.exist;
     await node.stop();
   });
-
 });
 
 
