@@ -10,7 +10,7 @@ const expect = chai.expect
 mock("serialport", "virtual-serialport")
 import SmartmeterObis from "smartmeter-obis"
 import IPFS from "ipfs-core"
-import AbortController from "abort-controller"
+
 import tmpDir from "./utils/temp-dir.js"
 
 
@@ -76,7 +76,7 @@ describe("test LocalFileTransport with D0Protocol", function () {
       counter++;
       for (var obisId in obisResult) {
         //console.log(
-          obisResult[obisId].idToString() +
+        obisResult[obisId].idToString() +
           ": " +
           SmartmeterObis.ObisNames.resolveObisName(
             obisResult[obisId],
@@ -89,7 +89,7 @@ describe("test LocalFileTransport with D0Protocol", function () {
         obisJSON[obisResult[obisId].idToString()] =
           obisResult[obisId].valueToString();
       }
-     // obisJSON["timestamp"] = Date.now();
+      // obisJSON["timestamp"] = Date.now();
       let stringJSON = JSON.stringify(obisJSON);
       //console.log("___stringJSON", stringJSON);
       //console.log("creating sha256 hash over data");
@@ -142,6 +142,7 @@ describe("create node IPFS", function () {
       preload: { enabled: false },
     });
 
+   // const node = await IPFS.create()
     const config = await node.config.getAll();
     const { cid } = await node.add(testHash);
 
@@ -151,22 +152,7 @@ describe("create node IPFS", function () {
     //console.log("testCid: ", testCid);
 
     // in the application
-const controller = new AbortController()
 
-setTimeout(() => controller.abort(), 10000)
-
-try {
-  const res = await node.cat(testCid, {
-    signal: controller.signal
-  })
-  } catch (err) {
-  if (err instanceof AbortError) {
-    console.log(err);
-  }
-}
-
-    expect(config.Identity).to.exist;
-    await node.stop();
   });
 });
 
@@ -175,135 +161,153 @@ try {
 chai.use(chaiHttp);
 
 describe('Generate Funds and make name_doi tx', function () {
-      let regtest = getClient("doichain", "regtest");
-      const credentials = regtest.user + ':' + regtest.pass;
-      var url = "http://" + credentials + '@' + regtest.host + ':' + regtest.port;
+  let regtest = getClient("doichain", "regtest");
+  const credentials = regtest.user + ':' + regtest.pass;
+  var url = "http://" + credentials + '@' + regtest.host + ':' + regtest.port;
 
-      it('First generate new address', function () {
-        return new Promise(function (resolve, reject) {
-          chai
-            .request(url)
-            .post("/")
-            .send({
-              method: 'getnewaddress'
-            })
-            .then((response) => {
-              if (response.status !== 200) {
-                console.log("Test failed because: " + response.res.statusMessage)
-                reject(response.error);
-              } else {
-                global.address = response.body.result;
-                expect(response.res).to.have.status(200);
-                resolve()
-              }
-            })
+  // it('generates a new address via doichain rpc', function () {
+  //   return new Promise(function (resolve, reject) {
+  //     chai
+  //       .request(url)
+  //       .post("/")
+  //       .send({
+  //         method: 'getnewaddress'
+  //       })
+  //       .then((response) => {
+  //         if (response.status !== 200) {
+  //           console.log("Test failed because: " + response.res.statusMessage)
+  //           reject(response.error);
+  //         } else {
+  //           global.address = response.body.result;
+  //           expect(response.res).to.have.status(200);
+  //           resolve()
+  //         }
+  //       })
+  //   })
+  // })
+
+  it('it should return Welcome message', (done) => {
+    chai
+        .request(url)
+        .post("/")
+        .send({
+          method: 'getnewaddress'
         })
-      })
+      .end((err, res) => {
+       // res.should.have.status(200);
+       // res.should.to.be.html;
+       // res.text.should.be.equal("Hello Docker World\n");
+       expect(res).to.have.status(200)
+       console.log(res)
+       console.log(err)
+        done();
+      });
+  });
 
-      it('Then generate 101 Blocks to the new address', function () {
-        return new Promise(function (resolve) {
-          chai
-            .request(url)
-            .post("/")
-            .send({
-              method: 'generatetoaddress',
-              params: [101, global.address]
-            })
-            .then((response) => {
-              if (response.status !== 200) {
-                console.log("Test failed because: " + response.res.statusMessage)
-                reject(response.error);
-              } else {
-                expect(response.res).to.have.status(200);
-                resolve();
-              }
-            })
+  it('Then generate 101 Blocks to the new address', function () {
+    return new Promise(function (resolve) {
+      chai
+        .request(url)
+        .post("/")
+        .send({
+          method: 'generatetoaddress',
+          params: [101, global.address]
         })
-      })
-
-      it('Then affirm new balance must be at least 50.0 Doi', function () {
-        return new Promise(function (resolve) {
-          chai
-            .request(url)
-            .post("/")
-            .send({
-              method: 'getbalance',
-            })
-            .then((response) => {
-              if (response.status !== 200) {
-                console.log("Test failed because: " + response.res.statusMessage)
-                reject(response.error);
-              } else {
-                let balance = parseInt(response.body.result);
-                expect(balance).to.be.gte(50);
-                resolve();
-              }
-            })
+        .then((response) => {
+          if (response.status !== 200) {
+            console.log("Test failed because: " + response.res.statusMessage)
+            reject(response.error);
+          } else {
+            expect(response.res).to.have.status(200);
+            resolve();
+          }
         })
-      })
+    })
+  })
 
-      it('should return name_doi txid with status 200', function () {
-        return new Promise(function (resolve) {
-          chai
-            .request(url)
-            .post("/")
-            .send({
-              method: 'name_doi',
-              params: [global.testHash, global.testCid]
-            })
-            .then((response) => {
-              if (response.status !== 200) {
-                console.log("Test failed because: " + response.res.statusMessage)
-                reject(response.error);
-              } else {
-                expect(response.res).to.have.status(200);
-                resolve();
-              }
-            })
+  it('Then affirm new balance must be at least 50.0 Doi', function () {
+    return new Promise(function (resolve) {
+      chai
+        .request(url)
+        .post("/")
+        .send({
+          method: 'getbalance',
         })
-      })
-
-      it('Then generate 1 Block to validate name_doi', function () {
-        return new Promise(function (resolve) {
-          chai
-            .request(url)
-            .post("/")
-            .send({
-              method: 'generatetoaddress',
-              params: [1, global.address]
-            })
-            .then((response) => {
-              if (response.status !== 200) {
-                console.log("Test failed because: " + response.res.statusMessage)
-                reject(response.error);
-              } else {
-                expect(response.res).to.have.status(200);
-                resolve();
-              }
-            })
+        .then((response) => {
+          if (response.status !== 200) {
+            console.log("Test failed because: " + response.res.statusMessage)
+            reject(response.error);
+          } else {
+            let balance = parseInt(response.body.result);
+            expect(balance).to.be.gte(50);
+            resolve();
+          }
         })
-      })
+    })
+  })
 
-
-      it('should return the saved hash with name_show', function () {
-        return new Promise(function (resolve) {
-          chai
-            .request(url)
-            .post("/")
-            .send({
-              method: 'name_show',
-              params: [testHash]
-            })
-            .then((response) => {
-              if (response.status !== 200) {
-                console.log("Test failed because: " + response.res.statusMessage)
-                reject(response.error);
-              } else {
-                expect(response.res).to.have.status(200);
-                resolve();
-              }
-            })
+  it('should return name_doi txid with status 200', function () {
+    return new Promise(function (resolve) {
+      chai
+        .request(url)
+        .post("/")
+        .send({
+          method: 'name_doi',
+          params: [global.testHash, global.testCid]
         })
-      })
-    });
+        .then((response) => {
+          if (response.status !== 200) {
+            console.log("Test failed because: " + response.res.statusMessage)
+            reject(response.error);
+          } else {
+            expect(response.res).to.have.status(200);
+            resolve();
+          }
+        })
+    })
+  })
+
+  it('Then generate 1 Block to validate name_doi', function () {
+    return new Promise(function (resolve) {
+      chai
+        .request(url)
+        .post("/")
+        .send({
+          method: 'generatetoaddress',
+          params: [1, global.address]
+        })
+        .then((response) => {
+          if (response.status !== 200) {
+            console.log("Test failed because: " + response.res.statusMessage)
+            reject(response.error);
+          } else {
+            expect(response.res).to.have.status(200);
+            resolve();
+          }
+        })
+    })
+  })
+
+
+  it('should return the saved hash with name_show', function () {
+    return new Promise(function (resolve) {
+      chai
+        .request(url)
+        .post("/")
+        .send({
+          method: 'name_show',
+          params: [testHash]
+        })
+        .then((response) => {
+          if (response.status !== 200) {
+            console.log("Test failed because: " + response.res.statusMessage)
+            reject(response.error);
+          } else {
+            expect(response.res).to.have.status(200);
+            resolve();
+          }
+        })
+    })
+  })
+});
 
