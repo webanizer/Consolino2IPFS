@@ -16,7 +16,19 @@ import tmpDir from "./utils/temp-dir.js"
 
 import createTempRepo from "./utils/create-repo-nodejs.js"
 
-describe("test LocalFileTransport with D0Protocol", function () {
+
+let regtest = getClient("doichain", "regtest");
+const credentials = regtest.user + ':' + regtest.pass;
+var url = "http://" + credentials + '@' + regtest.host + ':' + regtest.port;
+
+describe("Basic module tests for smartmeter, ipfs and doi rpc call", function () {
+
+  let tempRepo;
+
+  before(() => {
+    tempRepo = createTempRepo();
+  });
+
   it("check output of two D0 messages", function (done) {
     this.timeout(600000); // because of first install from npm    
 
@@ -114,21 +126,8 @@ describe("test LocalFileTransport with D0Protocol", function () {
       });
     }, 13000);
   })
-})
 
-describe("create node IPFS", function () {
-  let tempRepo;
-
-  beforeEach(() => {
-    tempRepo = createTempRepo();
-  });
-
-  afterEach(() => {
-    tempRepo.teardown();
-    //console.log("vvv");
-  });
-
-  it("should create a node with a custom repo path", async function () {
+  it("should create a node with a custom repo path", async function (done) {
     this.timeout(80 * 1000);
 
     const node = await IPFS.create({
@@ -142,7 +141,7 @@ describe("create node IPFS", function () {
       preload: { enabled: false },
     });
 
-   // const node = await IPFS.create()
+    // const node = await IPFS.create()
     const config = await node.config.getAll();
     const { cid } = await node.add(testHash);
 
@@ -152,162 +151,110 @@ describe("create node IPFS", function () {
     //console.log("testCid: ", testCid);
 
     // in the application
-
+    done();
   });
-});
 
 
-// Test der RPC calls zur Doichain im Regtestmodus
-chai.use(chaiHttp);
+  // Test der RPC calls zur Doichain im Regtestmodus
+  chai.use(chaiHttp);
 
-describe('Generate Funds and make name_doi tx', function () {
-  let regtest = getClient("doichain", "regtest");
-  const credentials = regtest.user + ':' + regtest.pass;
-  var url = "http://" + credentials + '@' + regtest.host + ':' + regtest.port;
-
-  // it('generates a new address via doichain rpc', function () {
-  //   return new Promise(function (resolve, reject) {
-  //     chai
-  //       .request(url)
-  //       .post("/")
-  //       .send({
-  //         method: 'getnewaddress'
-  //       })
-  //       .then((response) => {
-  //         if (response.status !== 200) {
-  //           console.log("Test failed because: " + response.res.statusMessage)
-  //           reject(response.error);
-  //         } else {
-  //           global.address = response.body.result;
-  //           expect(response.res).to.have.status(200);
-  //           resolve()
-  //         }
-  //       })
-  //   })
-  // })
-
-  it('it should return Welcome message', (done) => {
+  it('should generate a new address with RPC', (done) => {
     chai
-        .request(url)
-        .post("/")
-        .send({
-          method: 'getnewaddress'
-        })
+      .request(url)
+      .post("/")
+      .send({
+        method: 'getnewaddress'
+      })
       .end((err, res) => {
-       // res.should.have.status(200);
-       // res.should.to.be.html;
-       // res.text.should.be.equal("Hello Docker World\n");
-       expect(res).to.have.status(200)
-       console.log(res)
-       console.log(err)
+        expect(res.statusCode).to.equal(200)
+        global.address = res.body.result;
+        console.log(err)
         done();
       });
   });
 
-  it('Then generate 101 Blocks to the new address', function () {
-    return new Promise(function (resolve) {
-      chai
-        .request(url)
-        .post("/")
-        .send({
-          method: 'generatetoaddress',
-          params: [101, global.address]
-        })
-        .then((response) => {
-          if (response.status !== 200) {
-            console.log("Test failed because: " + response.res.statusMessage)
-            reject(response.error);
-          } else {
-            expect(response.res).to.have.status(200);
-            resolve();
-          }
-        })
-    })
+  it('Should generate 101 Blocks to the new address', (done) => {
+    chai
+      .request(url)
+      .post("/")
+      .send({
+        method: 'generatetoaddress',
+        params: [101, global.address]
+      })
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(200)
+        console.log(err)
+        done();
+      })
+  });
+
+  it('should affirm new balance must be at least 50.0 Doi', (done) => {
+    chai
+      .request(url)
+      .post("/")
+      .send({
+        method: 'getbalance',
+      })
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(200)
+        let balance = parseInt(res.body.result);
+        expect(balance).to.be.gte(50)
+        console.log(err)
+        done();
+      })
   })
 
-  it('Then affirm new balance must be at least 50.0 Doi', function () {
-    return new Promise(function (resolve) {
-      chai
-        .request(url)
-        .post("/")
-        .send({
-          method: 'getbalance',
-        })
-        .then((response) => {
-          if (response.status !== 200) {
-            console.log("Test failed because: " + response.res.statusMessage)
-            reject(response.error);
-          } else {
-            let balance = parseInt(response.body.result);
-            expect(balance).to.be.gte(50);
-            resolve();
-          }
-        })
-    })
+  it('should return name_doi txid with status 200', (done) => {
+    chai
+      .request(url)
+      .post("/")
+      .send({
+        method: 'name_doi',
+        params: [global.testHash, global.testCid]
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(200)
+        console.log(err)
+        done();
+      })
   })
 
-  it('should return name_doi txid with status 200', function () {
-    return new Promise(function (resolve) {
-      chai
-        .request(url)
-        .post("/")
-        .send({
-          method: 'name_doi',
-          params: [global.testHash, global.testCid]
-        })
-        .then((response) => {
-          if (response.status !== 200) {
-            console.log("Test failed because: " + response.res.statusMessage)
-            reject(response.error);
-          } else {
-            expect(response.res).to.have.status(200);
-            resolve();
-          }
-        })
-    })
-  })
-
-  it('Then generate 1 Block to validate name_doi', function () {
-    return new Promise(function (resolve) {
-      chai
-        .request(url)
-        .post("/")
-        .send({
-          method: 'generatetoaddress',
-          params: [1, global.address]
-        })
-        .then((response) => {
-          if (response.status !== 200) {
-            console.log("Test failed because: " + response.res.statusMessage)
-            reject(response.error);
-          } else {
-            expect(response.res).to.have.status(200);
-            resolve();
-          }
-        })
-    })
+  it('should generate 1 Block to validate name_doi', (done) => {
+    chai
+      .request(url)
+      .post("/")
+      .send({
+        method: 'generatetoaddress',
+        params: [1, global.address]
+      })
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(200)
+        console.log(err)
+        done();
+      })
   })
 
 
-  it('should return the saved hash with name_show', function () {
-    return new Promise(function (resolve) {
-      chai
-        .request(url)
-        .post("/")
-        .send({
-          method: 'name_show',
-          params: [testHash]
-        })
-        .then((response) => {
-          if (response.status !== 200) {
-            console.log("Test failed because: " + response.res.statusMessage)
-            reject(response.error);
-          } else {
-            expect(response.res).to.have.status(200);
-            resolve();
-          }
-        })
-    })
-  })
+  it('should return the saved hash with name_show', (done) => {
+    chai
+      .request(url)
+      .post("/")
+      .send({
+        method: 'name_show',
+        params: [testHash]
+      })
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(200)
+        expect(res.body.result)-to.equal(testHash)
+        console.log(err)
+        done();
+      })
+  });
+
+  after(() => {
+    tempRepo.teardown();
+    //console.log("vvv");
+
+  });
 });
 
