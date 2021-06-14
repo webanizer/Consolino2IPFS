@@ -2,8 +2,7 @@ import sha256 from 'sha256'
 import writeToIPFS from './ipfs.js'
 import writePoEToDoichain from './writePoEToDoichain.js'
 
-const smlToIpfs = async (err, obisResult) => {          
-      
+const smlToIpfs = async (err, obisResult) => {  
   
     let obisJSON = { }
 
@@ -23,6 +22,8 @@ const smlToIpfs = async (err, obisResult) => {
     console.log('creating sha256 hash over data')
     const hash = sha256(stringJSON)
     console.info('__our hash', hash)
+
+    console.info("__global.ipfs", global.ipfs)
 
     console.info('writing data into ipfs')
     const cid = await writeToIPFS(global.ipfs, stringJSON)
