@@ -20,9 +20,9 @@ let regtest = getClient("doichain", "regtest");
 const credentials = regtest.user + ':' + regtest.pass;
 var url = "http://" + credentials + '@' + regtest.host + ':' + regtest.port;
 
-describe("Basic module tests for smartmeter and ipfs", function () {
+describe("Basic module tests", function () {
 
-  it("check output of two D0 messages", function (done) {
+  it("should create hash over test SML file", function (done) {
     this.timeout(600000); // because of first install from npm    
 
     var options = {
@@ -121,11 +121,10 @@ describe("Basic module tests for smartmeter and ipfs", function () {
     }, 13000);
   })
 
-  it.only("should create a node with a custom repo path", async (done) => {
-   let testHash = "ad535182fc0af8e4e602c9f21ca887317aaf17b09e5f980d530b2694fc5d7e12"
-    
-    const ipfs = await IPFS.create()
-    const { cid } = await ipfs.add(testHash);
+  it("should add testHash to ipfs and return it", async () => {
+   //let testHash = "ad535182fc0af8e4e602c9f21ca887317aaf17b09e5f980d530b2694fc5d7e12"  
+   const ipfs = await IPFS.create()
+   const { cid } = await ipfs.add(testHash);
 
     expect(cid).to.be.not.empty
     global.testCid = cid.toString();
@@ -133,7 +132,8 @@ describe("Basic module tests for smartmeter and ipfs", function () {
     const data = uint8ArrayConcat(await all(ipfs.cat(cid)))
     const returnedHash = uint8ArrayToString(data)
     expect(returnedHash).to.contain(testHash) 
-  })
+
+  });
 
   // Test der RPC calls zur Doichain im Regtestmodus
   chai.use(chaiHttp);
