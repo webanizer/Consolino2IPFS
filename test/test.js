@@ -9,6 +9,7 @@ const expect = chai.expect
 
 mock("serialport", "virtual-serialport")
 import SmartmeterObis from "smartmeter-obis"
+
 import IPFS from "ipfs-core"
 
 import tmpDir from "./utils/temp-dir.js"
@@ -21,13 +22,7 @@ let regtest = getClient("doichain", "regtest");
 const credentials = regtest.user + ':' + regtest.pass;
 var url = "http://" + credentials + '@' + regtest.host + ':' + regtest.port;
 
-describe("Basic module tests for smartmeter, ipfs and doi rpc call", function () {
-
-  let tempRepo;
-
-  before(() => {
-    tempRepo = createTempRepo();
-  });
+describe("Basic module tests for smartmeter and ipfs", function () {
 
   it("check output of two D0 messages", function (done) {
     this.timeout(600000); // because of first install from npm    
@@ -101,12 +96,13 @@ describe("Basic module tests for smartmeter, ipfs and doi rpc call", function ()
         obisJSON[obisResult[obisId].idToString()] =
           obisResult[obisId].valueToString();
       }
-      // obisJSON["timestamp"] = Date.now();
+      //obisJSON["timestamp"] = Date.now();
       let stringJSON = JSON.stringify(obisJSON);
       //console.log("___stringJSON", stringJSON);
       //console.log("creating sha256 hash over data");
 
       global.testHash = sha256(stringJSON);
+
       let expectedHash = 'ad535182fc0af8e4e602c9f21ca887317aaf17b09e5f980d530b2694fc5d7e12';
       expect(testHash.toString()).to.equal(expectedHash);
       //console.info("__our testHash", testHash);
@@ -126,6 +122,13 @@ describe("Basic module tests for smartmeter, ipfs and doi rpc call", function ()
       });
     }, 13000);
   })
+  let tempRepo
+
+  before(() => {
+    tempRepo = createTempRepo()
+  })
+
+  after(() => tempRepo.teardown())
 
   it("should create a node with a custom repo path", async function (done) {
     this.timeout(80 * 1000);
@@ -135,14 +138,15 @@ describe("Basic module tests for smartmeter, ipfs and doi rpc call", function ()
       init: { bits: 512 },
       config: {
         Addresses: {
-          Swarm: [],
-        },
+          Swarm: []
+        }
       },
-      preload: { enabled: false },
-    });
+      preload: { enabled: false }
+    })
 
-    // const node = await IPFS.create()
-    const config = await node.config.getAll();
+    const config = await node.config.getAll()
+    expect(config.Identity).to.exist()
+
     const { cid } = await node.add(testHash);
 
     expect(cid).to.be.not.empty
@@ -150,10 +154,10 @@ describe("Basic module tests for smartmeter, ipfs and doi rpc call", function ()
     global.testCid = cid.toString();
     //console.log("testCid: ", testCid);
 
-    // in the application
-    done();
-  });
+    expect(config.Identity).to.exist;
+   // await node.stop()
 
+  });
 
   // Test der RPC calls zur Doichain im Regtestmodus
   chai.use(chaiHttp);
@@ -228,7 +232,7 @@ describe("Basic module tests for smartmeter, ipfs and doi rpc call", function ()
         params: [1, global.address]
       })
       .end((err, res) => {
-        expect(res.statusCode).to.equal(200)
+        expect(res).to.have.status(200)
         console.log(err)
         done();
       })
@@ -244,17 +248,10 @@ describe("Basic module tests for smartmeter, ipfs and doi rpc call", function ()
         params: [testHash]
       })
       .end((err, res) => {
-        expect(res.statusCode).to.equal(200)
-        expect(res.body.result)-to.equal(testHash)
+        expect(res).to.have.status(200)
         console.log(err)
         done();
       })
-  });
-
-  after(() => {
-    tempRepo.teardown();
-    //console.log("vvv");
-
   });
 });
 
