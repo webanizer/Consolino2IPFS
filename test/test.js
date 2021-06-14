@@ -126,6 +126,7 @@ describe("Basic module tests", function () {
     const data = uint8ArrayConcat(await all(ipfs.cat(cid)))
     const returnedHash = uint8ArrayToString(data)
     expect(returnedHash).to.contain(testHash)
+    await ipfs.stop();
 
   });
 
