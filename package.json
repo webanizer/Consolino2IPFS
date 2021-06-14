@@ -17,14 +17,18 @@
     "axios": "^0.21.1",
     "docker-compose": "^0.23.10",
     "fs": "*",
+    "ipfs": "^0.55.3",
     "ipfs-core": "^0.7.0",
+    "it-all": "^1.0.5",
     "jslint": "^0.12.1",
     "mock-require": "^3.0.3",
     "node-xml": "^1.0.2",
+    "nodemailer": "^6.6.1",
     "os": "^0.1.1",
     "serialport": "^9.0.7",
     "sha256": "^0.2.0",
-    "smartmeter-obis": "^2.3.0"
+    "smartmeter-obis": "^2.3.0",
+    "uint8arrays": "^2.1.5"
   },
   "devDependencies": {
     "@types/chai-http": "^4.2.0",

@@ -10,12 +10,10 @@ const expect = chai.expect
 mock("serialport", "virtual-serialport")
 import SmartmeterObis from "smartmeter-obis"
 
-import IPFS from "ipfs-core"
-
-import tmpDir from "./utils/temp-dir.js"
-
-
-import createTempRepo from "./utils/create-repo-nodejs.js"
+import IPFS from 'ipfs'
+import uint8ArrayConcat  from 'uint8arrays/concat.js'
+import uint8ArrayToString from 'uint8arrays/to-string.js'
+import all from 'it-all'
 
 
 let regtest = getClient("doichain", "regtest");
@@ -122,42 +120,20 @@ describe("Basic module tests for smartmeter and ipfs", function () {
       });
     }, 13000);
   })
-  let tempRepo
 
-  before(() => {
-    tempRepo = createTempRepo()
-  })
-
-  after(() => tempRepo.teardown())
-
-  it("should create a node with a custom repo path", async function (done) {
-    this.timeout(80 * 1000);
-
-    const node = await IPFS.create({
-      repo: tmpDir(),
-      init: { bits: 512 },
-      config: {
-        Addresses: {
-          Swarm: []
-        }
-      },
-      preload: { enabled: false }
-    })
-
-    const config = await node.config.getAll()
-    expect(config.Identity).to.exist()
-
-    const { cid } = await node.add(testHash);
+  it.only("should create a node with a custom repo path", async (done) => {
+   let testHash = "ad535182fc0af8e4e602c9f21ca887317aaf17b09e5f980d530b2694fc5d7e12"
+    
+    const ipfs = await IPFS.create()
+    const { cid } = await ipfs.add(testHash);
 
     expect(cid).to.be.not.empty
-
     global.testCid = cid.toString();
-    //console.log("testCid: ", testCid);
 
-    expect(config.Identity).to.exist;
-   // await node.stop()
-
-  });
+    const data = uint8ArrayConcat(await all(ipfs.cat(cid)))
+    const returnedHash = uint8ArrayToString(data)
+    expect(returnedHash).to.contain(testHash) 
+  })
 
   // Test der RPC calls zur Doichain im Regtestmodus
   chai.use(chaiHttp);
