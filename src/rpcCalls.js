@@ -3,14 +3,11 @@ import axios from 'axios';
 
 export const NAMESPACE = 'bp/';
 
-
-export async function nameDoi(client, name, value, address) {
+export async function nameDoi(url, name, value, address) {
   const ourName = checkId(name);
   const ourValue = value;
   const time =  new Date();
   const parameters = [ourName, ourValue];
-  const credentials = client.user + ':' + client.pass;
-  const url = 'http://' + credentials + '@' + client.host + ':' + client.port
 
   try {
     const response = await axios.post(
@@ -22,6 +19,24 @@ export async function nameDoi(client, name, value, address) {
       }
     );
     console.log("txid: ", response.data)
+  } catch (error) {
+    console.error('\n' + "Status: "+ error.response.status + " " +error.response.statusText);
+  }
+}
+
+export async function getBalance(url) {
+  const time =  new Date();
+
+  try {
+    const response = await axios.post(
+      url,
+      {
+        id: time.toString(),
+        method: 'getbalance',
+      }
+    );
+    console.log("Balance: ", response.data)
+    return response.data.result;
   } catch (error) {
     console.error('\n' + "Status: "+ error.response.status + " " +error.response.statusText);
   }
