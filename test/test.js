@@ -11,7 +11,7 @@ mock("serialport", "virtual-serialport")
 import SmartmeterObis from "smartmeter-obis"
 
 import IPFS from 'ipfs'
-import uint8ArrayConcat  from 'uint8arrays/concat.js'
+import uint8ArrayConcat from 'uint8arrays/concat.js'
 import uint8ArrayToString from 'uint8arrays/to-string.js'
 import all from 'it-all'
 
@@ -23,7 +23,7 @@ var url = "http://" + credentials + '@' + regtest.host + ':' + regtest.port;
 describe("Basic module tests", function () {
 
   it("should create hash over test SML file", function (done) {
-    this.timeout(600000); // because of first install from npm    
+    this.timeout(60000); // because of first install from npm    
 
     var options = {
       protocol: "D0Protocol",
@@ -75,12 +75,9 @@ describe("Basic module tests", function () {
         );
       }
 
-      //console.log("Received data " + counter + ": " + Object.keys(obisResult));
-      //console.log(JSON.stringify(obisResult,null,2));
       lastObisResult = obisResult;
       counter++;
       for (var obisId in obisResult) {
-        //console.log(
         obisResult[obisId].idToString() +
           ": " +
           SmartmeterObis.ObisNames.resolveObisName(
@@ -89,21 +86,18 @@ describe("Basic module tests", function () {
           ).obisName +
           " = " +
           obisResult[obisId].valueToString();
-        //);
 
         obisJSON[obisResult[obisId].idToString()] =
           obisResult[obisId].valueToString();
       }
       //obisJSON["timestamp"] = Date.now();
       let stringJSON = JSON.stringify(obisJSON);
-      //console.log("___stringJSON", stringJSON);
-      //console.log("creating sha256 hash over data");
+
 
       global.testHash = sha256(stringJSON);
 
       let expectedHash = 'ad535182fc0af8e4e602c9f21ca887317aaf17b09e5f980d530b2694fc5d7e12';
       expect(testHash.toString()).to.equal(expectedHash);
-      //console.info("__our testHash", testHash);
     }
 
     var smTransport = SmartmeterObis.init(options, testStoreData);
@@ -122,16 +116,16 @@ describe("Basic module tests", function () {
   })
 
   it("should add testHash to ipfs and return it", async () => {
-   //let testHash = "ad535182fc0af8e4e602c9f21ca887317aaf17b09e5f980d530b2694fc5d7e12"  
-   const ipfs = await IPFS.create()
-   const { cid } = await ipfs.add(testHash);
+    //let testHash = "ad535182fc0af8e4e602c9f21ca887317aaf17b09e5f980d530b2694fc5d7e12"  
+    const ipfs = await IPFS.create()
+    const { cid } = await ipfs.add(testHash);
 
     expect(cid).to.be.not.empty
     global.testCid = cid.toString();
 
     const data = uint8ArrayConcat(await all(ipfs.cat(cid)))
     const returnedHash = uint8ArrayToString(data)
-    expect(returnedHash).to.contain(testHash) 
+    expect(returnedHash).to.contain(testHash)
 
   });
 
