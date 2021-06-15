@@ -25,7 +25,6 @@ const writePoEToDoichain = async (cid, hash) => {
         await checkBalance(url);
         const nameDoiTx = await nameDoi(url, hash, cid.toString(),false);
 
-
         console.log("Ende von Poe")
 
 }
