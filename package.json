@@ -5,14 +5,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "start:test": "node index.js test",
-    "test": "docker-compose up -d && mocha"
+    "start": "node index.js",    
+    "test:mocha": "docker-compose up -d && mocha",
+    "test": "mocha test/index.test.js"
   },
   "author": "Nico Krause",
   "license": "MIT",
   "dependencies": {
-    "@mapbox/node-pre-gyp": "^1.0.5",
+    "@mapbox/node-pre-gyp": "^1.0.5", 
     "@types/chai": "^4.2.18",
     "axios": "^0.21.1",
     "docker-compose": "^0.23.10",
