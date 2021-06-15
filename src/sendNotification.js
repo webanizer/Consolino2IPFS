@@ -18,13 +18,26 @@ const sendNotification = async (balance) => {
         text: 'Dein Wallet hat nur noch ' + balance + ' Dois.'
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    let resp= await wrapedSendMail(mailOptions);
+
+    async function wrapedSendMail(mailOptions){
+
+    return new Promise((resolve, reject) => {
+        let resp=false;
+
+        transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
+            resolve(false)
         } else {
             console.log('Email sent: ' + info.response);
+            resolve(true)
         }
     });
+})
+    }
+    return resp;
 }
+
 
 export default sendNotification

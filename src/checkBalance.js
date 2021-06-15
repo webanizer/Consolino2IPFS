@@ -7,10 +7,13 @@ const checkBalance = async (url) => {
 
     console.log("Current Balance: "+ balance)
 
-    if (parseInt(balance) < 100){
+    if (parseInt(balance) < 20){
         await sendNotification(balance);
     }
-
+    else if (parseInt(balance)< 0.01){
+        console.log("Insufficient funds for Proof of Existence. Please buy more Dois to continue writing to Blockchain.")
+        throw new Error("Insufficient funds");
+    }
 
 }
 
