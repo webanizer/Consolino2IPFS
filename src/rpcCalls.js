@@ -53,7 +53,7 @@ export async function getNewAddress(url) {
         method: 'getnewaddress',
       }
     );
-    console.log("Balance: ", response.data)
+    console.log("Neue Empfangsaddresse: ", response.data)
     return response.data.result;
   } catch (error) {
     console.error(error)
