@@ -20,7 +20,7 @@ export async function nameDoi(url, name, value, address) {
     );
     console.log("txid: ", response.data)
   } catch (error) {
-    console.error('\n' + "Status: "+ error.response.status + " " +error.response.statusText);
+    console.error(error)
   }
 }
 
@@ -38,7 +38,25 @@ export async function getBalance(url) {
     console.log("Balance: ", response.data)
     return response.data.result;
   } catch (error) {
-    console.error('\n' + "Status: "+ error.response.status + " " +error.response.statusText);
+    console.error(error)
+  }
+}
+
+export async function getNewAddress(url) {
+  const time =  new Date();
+
+  try {
+    const response = await axios.post(
+      url,
+      {
+        id: time.toString(),
+        method: 'getnewaddress',
+      }
+    );
+    console.log("Balance: ", response.data)
+    return response.data.result;
+  } catch (error) {
+    console.error(error)
   }
 }
 

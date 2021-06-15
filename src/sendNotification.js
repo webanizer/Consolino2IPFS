@@ -1,21 +1,15 @@
 import nodemailer from "nodemailer"
 
 
-const sendNotification = async (balance) => {
+const sendNotification = async (balance, newAddress) => {
 
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'user@webanizer.de',
-            pass: 'passwort'
-        }
-    });
+    var transporter = nodemailer.createTransport('smtps://user:pass@gmail.com');
 
     var mailOptions = {
-        from: "lena.stallinger@webanizer.de",
-        to: "lenastalli@gmail.com",
+        from: "RaspberryPi",
+        to: "",
         subject: "Dois sind bald leer",
-        text: 'Dein Wallet hat nur noch ' + balance + ' Dois.'
+        text: 'Hallo, das Wallet hat nur noch ' + balance + ' Dois. Bitte schicke mehr an die Raspberry Addresse: ' + newAddress + ' . Vielen Dank'
     };
 
     let resp = await wrapedSendMail(mailOptions);

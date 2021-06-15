@@ -1,4 +1,4 @@
-import { getBalance } from "./rpcCalls.js"
+import { getBalance, getNewAddress } from "./rpcCalls.js"
 import sendNotification from "./sendNotification.js"
 
 const checkBalance = async (url) => {
@@ -11,8 +11,9 @@ const checkBalance = async (url) => {
         console.log("Insufficient funds for Proof of Existence. Please buy more Dois to continue writing to Blockchain.")
         throw new Error("Insufficient funds");
     }
-    else if (parseInt(balance) < 20) {
-        await sendNotification(balance);
+    else if (parseInt(balance) < 32) {
+        const newAddress = await getNewAddress(url);
+        await sendNotification(balance, newAddress);
     }
 
 }

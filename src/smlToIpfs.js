@@ -23,7 +23,7 @@ const smlToIpfs = async (err, obisResult) => {
     const hash = sha256(stringJSON)
     console.info('__our hash', hash)
 
-    console.info("__global.ipfs", global.ipfs)
+
 
     console.info('writing data into ipfs')
     const cid = await writeToIPFS(global.ipfs, stringJSON)
