@@ -3,7 +3,15 @@ import nodemailer from "nodemailer"
 
 const sendNotification = async (balance, newAddress) => {
 
-    var transporter = nodemailer.createTransport('smtps://user:pass@gmail.com');
+    var transporter = nodemailer.createTransport({
+        host: "",
+        port: 587,
+        secure: false, // upgrade later with STARTTL
+        auth: {
+          user: "nms",
+          pass: ""
+        }
+      });
 
     var mailOptions = {
         from: "RaspberryPi",
