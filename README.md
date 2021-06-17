@@ -9,12 +9,18 @@
 ## Getting started
 1. Checkout this repo
 2. run ```npm install```
-3. run ```node index.js```
+3. In settings.json add doichain mainnet password from .doichain/doichain.conf
+3. run ```npm start```
 4. to run modular tests:
       - ```npm run test:module```
       - Reads data from test file instead of meter
+      - Runs test/test.js
       - Writes hash and Cid to Doichain regtest instead of main net
-5. to run integration tests run: ```npm run test:functional```
+5. to run integration tests: 
+      - ```npm run test:functional```
+      - Sets an environment variable to use Regtest mode
+      - Then starts up docker container with doichain-node in regtest-mode
+      - Runs /test/index.test.js
 
 
 ### Offene Fragen
