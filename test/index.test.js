@@ -1,6 +1,5 @@
 
 
-import fs from "fs"
 import { readFile } from 'fs/promises';
 import smartMeterInit from "../src/smartMeterInit.js"
 import transportLocalFile from "./transportLocalFile.js"
