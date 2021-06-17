@@ -9,14 +9,16 @@
 ## Getting started
 1. Checkout this repo
 2. run ```npm install```
-3. In settings.json add doichain mainnet password from .doichain/doichain.conf
-3. run ```npm start```
-4. to run modular tests:
+3. Add your passwords
+      - In settings.json add doichain mainnet password from .doichain/doichain.conf
+      - In src/sendNotification.js add smtp address, password and username
+4. run ```npm start```
+5. to run modular tests:
       - ```npm run test:module```
       - Reads data from test file instead of meter
       - Runs test/test.js
       - Writes hash and Cid to Doichain regtest instead of main net
-5. to run integration tests: 
+6. to run integration tests: 
       - ```npm run test:functional```
       - Sets an environment variable to use Regtest mode
       - Then starts up docker container with doichain-node in regtest-mode
