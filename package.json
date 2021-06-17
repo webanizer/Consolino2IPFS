@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "test:module": "docker-compose up -d && CONSOLINNO_SETTINGS=settings-test.js mocha ./test/test.js",
-    "test:functional": "CONSOLINNO_SETTINGS=settings-test.js mocha test/index.test.js"
+    "test:module": "docker-compose up -d && CONSOLINNO_SETTINGS=settings-test.json mocha ./test/test.js",
+    "test:functional": "CONSOLINNO_SETTINGS=settings-test.json mocha test/index.test.js"
   },
   "author": "Nico Krause",
   "license": "MIT",

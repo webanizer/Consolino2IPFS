@@ -6,7 +6,7 @@ global.ipfs = await ipfs.create()
 
 const smartMeterInit = async (options) => {
   console.log("started reading consolino meter");
-  let smTransport = SmartmeterObis.init(options, smlToIpfs);
+  let smTransport = SmartmeterObis.init(options, smlToIpfs());
   console.log("started SmartmeterObis process");
   smTransport.process();
   console.log("end SmartmeterObis process");
