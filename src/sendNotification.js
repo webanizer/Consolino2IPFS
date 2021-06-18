@@ -4,7 +4,7 @@ import nodemailer from "nodemailer"
 const sendNotification = async (balance, newAddress) => {
 
     var transporter = nodemailer.createTransport({
-        host: "",
+        host: "11335-13.root.nessus.at",
         port: 587,
         secure: false, // upgrade later with STARTTL
         auth: {
