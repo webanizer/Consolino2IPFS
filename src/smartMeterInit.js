@@ -10,7 +10,7 @@ const smartMeterInit = async (options) => {
   console.log("started SmartmeterObis process");
   smTransport.process();
   console.log("end SmartmeterObis process");
-  setTimeout(smTransport.stop, 6000);
+  setTimeout(smTransport.stop, 60000);
 }
 
 export default smartMeterInit

@@ -36,7 +36,7 @@ describe("Basic module tests", function () {
       transportHttpRequestUrl: "",
       obisNameLanguage: "en",
       transportLocalFilePath: "./test.d0",
-      obisFallbackMedium: 6,
+      obisFallbackMedium: 6
     };
 
     var testData =
