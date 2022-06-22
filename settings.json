@@ -3,7 +3,7 @@
     "host": "localhost",
     "port": "8339",
     "username": "admin",
-    "password": ""
+    "password": "06052022"
   },
   "options": {
     "protocol": "SmlProtocol",
@@ -13,7 +13,6 @@
     "requestInterval": 900,
     "transportHttpRequestUrl": "",
     "obisNameLanguage": "en",
-    "transportLocalFilePath": "./test.d0",
     "obisFallbackMedium": 6,
     "debug": 0,
     "protocolSmlIgnoreInvalidCRC": true,

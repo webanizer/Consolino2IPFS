@@ -15,7 +15,7 @@ const writePoEToDoichain = async (cid, hash) => {
         console.log("Hash in die doichain speichern: " + hash)
         
         // Check if there are still enough Doi in the wallet for the name tx
-        await checkBalance(global.url);
+        //await checkBalance(global.url);
         const nameDoiTx = await nameDoi(url, hash, cid.toString(),false);
 
         console.log("Ende von Poe")
